@@ -42,6 +42,7 @@ return {
         function()
           require("smart-splits").resize_left()
         end,
+        mode = { "n", "v", "t" },
         desc = "Resize split left (*)",
       },
       {
@@ -49,6 +50,7 @@ return {
         function()
           require("smart-splits").resize_down()
         end,
+        mode = { "n", "v", "t" },
         desc = "Resize split down (*)",
       },
       {
@@ -56,6 +58,7 @@ return {
         function()
           require("smart-splits").resize_up()
         end,
+        mode = { "n", "v", "t" },
         desc = "Resize split up (*)",
       },
       {
@@ -63,6 +66,7 @@ return {
         function()
           require("smart-splits").resize_right()
         end,
+        mode = { "n", "v", "t" },
         desc = "Resize split right (*)",
       },
       {

@@ -1,17 +1,20 @@
+if true then
+  return {}
+end
 --- Im not sure any of this is really working on windows with wsl & tmux.  I will keep it here for now.
 vim.g.clipboard = {
   name = "OSC 52",
   copy = {
-    ["+"] = require("vim.ui.clipboard.osc52").copy "+",
-    ["*"] = require("vim.ui.clipboard.osc52").copy "*",
+    ["+"] = require("vim.ui.clipboard.osc52").copy("+"),
+    ["*"] = require("vim.ui.clipboard.osc52").copy("*"),
   },
   paste = {
-    ["+"] = require("vim.ui.clipboard.osc52").paste "+",
-    ["*"] = require("vim.ui.clipboard.osc52").paste "*",
+    ["+"] = require("vim.ui.clipboard.osc52").paste("+"),
+    ["*"] = require("vim.ui.clipboard.osc52").paste("*"),
   },
 }
 
-if vim.env.WAYLAND_DISPLAY and vim.fn.executable "wl-copy" and vim.fn.executable "wl-paste" then
+if vim.env.WAYLAND_DISPLAY and vim.fn.executable("wl-copy") and vim.fn.executable("wl-paste") then
   vim.g.clipboard = {
     name = "wl-copy",
     copy = {
@@ -27,7 +30,7 @@ if vim.env.WAYLAND_DISPLAY and vim.fn.executable "wl-copy" and vim.fn.executable
 end
 
 -- if vim.fn.has "wsl" == 1 and vim.fn.executable "wsl-copy" and vim.fn.executable "wsl-paste" then
-if vim.fn.has "wsl" == 1 then
+if vim.fn.has("wsl") == 1 then
   vim.g.clipboard = {
     name = "wsl-copy",
     copy = {

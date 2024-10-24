@@ -1,6 +1,5 @@
---- TODO: Need to confirm spell checking support
 return {
-  { -- Markdown inline view
+  {
     "MeanderingProgrammer/render-markdown.nvim",
 
     opts = {
@@ -22,21 +21,5 @@ return {
     config = function(_, opts)
       require("render-markdown").setup(opts)
     end,
-  },
-  { -- Markdown preview
-    "iamcco/markdown-preview.nvim",
-    cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
-    ft = { "markdown" },
-    build = function()
-      vim.fn["mkdp#util#install"]()
-    end,
-  },
-  { -- Vim pencil support
-    "preservim/vim-pencil",
-    enabled = false,
-  },
-  { -- Zen mode
-    "folke/zen-mode.nvim",
-    enabled = false,
   },
 }
