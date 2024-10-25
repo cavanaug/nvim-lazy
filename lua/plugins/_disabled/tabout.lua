@@ -2,6 +2,7 @@
 return {
   {
     "abecodes/tabout.nvim",
+    enable = false,
     lazy = false,
     config = function()
       require("tabout").setup({
@@ -36,6 +37,7 @@ return {
   },
   {
     "L3MON4D3/LuaSnip",
+    enable = false,
     keys = function()
       -- Disable default tab keybinding in LuaSnip
       return {}

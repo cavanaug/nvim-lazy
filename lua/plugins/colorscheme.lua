@@ -1,6 +1,39 @@
 return {
+  { "catppuccin/nvim", name = "catppuccin", priority = 1000 },
+  { "comfysage/aki" },
   { "Mofiqul/vscode.nvim" },
+  { "vague2k/vague.nvim" },
+  { "sho-87/kanagawa-paper.nvim" },
+  { "nalexpear/spacegray.nvim" },
   { "ellisonleao/gruvbox.nvim" },
+  { "mikesmithgh/gruvsquirrel.nvim" },
+  { "chama-chomo/grail" },
+  -- { "antonk52/lake.nvim" },
+  -- { "deparr/tairiki.nvim" },
+  -- { "echasnovski/mini.hues" },
+  -- { "carcuis/darcula.nvim" },
+  -- { "zortax/three-firewatch" },
+  -- { "lpuljic/nox-modus.nvim" },
+  -- { "starryleo/starry-vim-colorschemes" },
+  -- { "delafthi/nord-nvim" },
+  -- { "samir-roy/shinjuku.nvim" },
+  -- { "lfenzo/fusion.nvim" },
+  -- { "behemothbucket/gruber-darker-theme.nvim" },
+  -- { "steguiosaur/fullerene.nvim" },
+  -- { "shawilly/ponokai" },
+  -- { "gmr458/cold.nvim" },
+  -- { "wittyjudge/gruvbox-material.nvim" },
+  -- { "deviusvim/deviuspro.nvim" },
+  -- { "xiantang/darcula-dark.nvim" },
+  -- { "lewpoly/sherbet.nvim" },
+  -- { "gbprod/nord.nvim" },
+  { "aktersnurra/no-clown-fiesta.nvim" },
+  -- { "rmehri01/onenord.nvim" },
+  -- { "alexvzyl/nordic.nvim" },
+  -- { "savq/melange-nvim" },
+  -- { "shaunsingh/nord.nvim" },
+  { "sainnhe/sonokai" },
+  -- { "navarasu/onedark.nvim" },
 
   -- Configure LazyVim to load my colorscheme
   {
@@ -8,7 +41,18 @@ return {
     opts = {
       -- colorscheme = "gruvbox",
       -- colorscheme = "vscode",
-      colorscheme = "catppuccin",
+      -- colorscheme = "catppuccin",
+      -- colorscheme = "lunaperche",
+      colorscheme = "vague",
     },
+  },
+  {
+    "zaldih/themery.nvim",
+    lazy = false,
+    config = function()
+      require("themery").setup({
+        themes = vim.fn.getcompletion("", "color"),
+      })
+    end,
   },
 }
