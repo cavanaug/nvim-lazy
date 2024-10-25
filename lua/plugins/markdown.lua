@@ -1,6 +1,14 @@
---- TODO: Need to confirm spell checking support
 return {
-  { -- Markdown inline view
+  --------------------------------------------------------------------------------------
+  { --- Markdown syntax highlighting
+    "tadmccorkle/markdown.nvim",
+    ft = "markdown", -- or 'event = "VeryLazy"'
+    opts = {
+      -- configuration here or empty for defaults
+    },
+  },
+  --------------------------------------------------------------------------------------
+  { --- Markdown inline view
     "MeanderingProgrammer/render-markdown.nvim",
 
     opts = {
@@ -23,7 +31,8 @@ return {
       require("render-markdown").setup(opts)
     end,
   },
-  { -- Markdown preview
+  --------------------------------------------------------------------------------------
+  { --- Markdown preview
     "iamcco/markdown-preview.nvim",
     cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
     ft = { "markdown" },
@@ -31,15 +40,18 @@ return {
       vim.fn["mkdp#util#install"]()
     end,
   },
-  { -- Vim pencil support
+  --------------------------------------------------------------------------------------
+  { --- Vim pencil support
     "preservim/vim-pencil",
     enabled = false,
   },
-  { -- Zen mode
+  --------------------------------------------------------------------------------------
+  { --- Zen mode
     "folke/zen-mode.nvim",
     enabled = false,
   },
-  { -- Spell check as warnings
+  --------------------------------------------------------------------------------------
+  { --- Spell check as warnings
     "ravibrock/spellwarn.nvim",
     enabled = false,
     event = "VeryLazy",
@@ -52,8 +64,13 @@ return {
         "TextChangedI",
         "TextChangedP",
         "TextChangedT",
-        "FileAppendCmd",
+        "FileAppendCmd", -- To detect a zg add to spellfile
       },
     },
+  },
+  --------------------------------------------------------------------------------------
+  { --- Classic bullets
+    "bullets-vim/bullets.vim",
+    eanabled = false,
   },
 }
