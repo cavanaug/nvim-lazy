@@ -39,4 +39,21 @@ return {
     "folke/zen-mode.nvim",
     enabled = false,
   },
+  { -- Spell check as warnings
+    "ravibrock/spellwarn.nvim",
+    enabled = false,
+    event = "VeryLazy",
+    config = true,
+    opts = {
+      event = { -- event(s) to refresh diagnostics on
+        "CursorHold",
+        "InsertLeave",
+        "TextChanged",
+        "TextChangedI",
+        "TextChangedP",
+        "TextChangedT",
+        "FileAppendCmd",
+      },
+    },
+  },
 }

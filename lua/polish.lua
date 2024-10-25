@@ -25,6 +25,7 @@ vim.cmd([[
       autocmd BufNewFile,BufRead *.avsc setfiletype json
       autocmd BufNewFile,BufRead *.rss *.atom setfiletype xml
       autocmd BufNewFile,BufRead *.json setfiletype jsonc
+      autocmd BufNewFile,BufRead *.md setlocal spell
       autocmd BufWritePost tmux.conf execute ':!tmux source-file %'
       autocmd FileType help if winwidth("%")>4.5*winheight("%") | wincmd L | else | wincmd K | endif
       augroup END
