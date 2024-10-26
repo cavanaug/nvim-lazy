@@ -1,4 +1,1 @@
-return {
-  -- Not needed in lazyvim
-  { "AndrewRadev/bufferize.vim" },
-}
+/home/cavanaug/.config/nvim/lua/plugins/./command.lua
