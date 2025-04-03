@@ -1,1 +1,0 @@
-/home/cavanaug/.config/nvim/lua/plugins/./alpha-nvim.lua
