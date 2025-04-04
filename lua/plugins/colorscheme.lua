@@ -1,20 +1,21 @@
 return {
-  -- { "catppuccin/nvim", name = "catppuccin", priority = 1000 },
+  ---  THEMES   ---------------------------------------------------------------------------------------------------
   { "EdenEast/nightfox.nvim", lazy = false },
   { "Mofiqul/vscode.nvim", lazy = false },
   { "aktersnurra/no-clown-fiesta.nvim" },
-  { "chama-chomo/grail" },
-  { "comfysage/aki" },
   { "ellisonleao/gruvbox.nvim", lazy = false },
-  { "folke/tokyonight.nvim", lazy = false },
   { "mikesmithgh/gruvsquirrel.nvim" },
-  { "nalexpear/spacegray.nvim" },
+  { "nalexpear/spacegray.nvim", lazy = false },
   { "rebelot/kanagawa.nvim", lazy = false },
   { "rose-pine/neovim", lazy = false },
   { "sainnhe/sonokai", lazy = false },
   { "sho-87/kanagawa-paper.nvim" },
-  { "vague2k/vague.nvim" },
   { "projekt0n/github-nvim-theme", lazy = false, priority = 1000 },
+  { "vague2k/vague.nvim", lazy = false },
+  --  { "chama-chomo/grail" },
+  -- { "comfysage/aki" },
+  -- { "folke/tokyonight.nvim", lazy = false },
+  -- { "catppuccin/nvim", name = "catppuccin", priority = 1000 },
   -- { "alexvzyl/nordic.nvim" },
   -- { "antonk52/lake.nvim" },
   -- { "behemothbucket/gruber-darker-theme.nvim" },
@@ -40,18 +41,20 @@ return {
   -- { "xiantang/darcula-dark.nvim" },
   -- { "zortax/three-firewatch" },
 
-  -- Configure LazyVim to load my colorscheme
+  ---  THEME PREVIEW  ---------------------------------------------------------------------------------------------
+  --     I dont this actually works when themery is loaded
   {
     "LazyVim/LazyVim",
     opts = {
       -- colorscheme = "gruvbox",
       -- colorscheme = "vscode",
       -- colorscheme = "catppuccin",
-      -- colorscheme = "lunaperche",
-      colorscheme = "slate",
-      -- colorscheme = "sonokai",
+      -- colorscheme = "github_dark_default",
+      -- colorscheme = "slate",
+      colorscheme = "sonokai",
     },
   },
+  ---  THEME PREVIEW  ---------------------------------------------------------------------------------------------
   {
     "zaldih/themery.nvim",
     lazy = false,
@@ -59,6 +62,7 @@ return {
       require("themery").setup({
         themes = vim.fn.getcompletion("", "color"),
       })
+      require("themery").setThemeByName("vscode", true)
     end,
   },
 }
