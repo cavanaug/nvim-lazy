@@ -18,7 +18,7 @@ local map = vim.keymap.set
 map("n", "P", '"+p', { noremap = true }) -- Paste from windows clipboard
 map("n", "Y", '"+y', { noremap = true }) -- Yank to windows clipboard
 
-map("n", "<M-,>", "<cmd>ToggleTerm<cr>", { noremap = true }) -- Shortcut to toggle terminal (if using ToggleTerm)
+-- map("n", "<M-,>", "<cmd>ToggleTerm<cr>", { noremap = true }) -- Shortcut to toggle terminal (if using ToggleTerm)
 
 -- map("n", "<C-Space>", "za", { desc = "Toggle fold under cursor (*)" })
 
@@ -43,7 +43,7 @@ map("n", "<C-C>", function()
 end, { desc = "Close pane (*)" })
 
 ----------------------------------------
---- Toogle Window Split Orientation
+--- Toggle Window Split Orientation
 ----------------------------------------
 map("n", "<C-e>", function()
   local win1 = vim.api.nvim_list_wins()[1]
@@ -69,11 +69,14 @@ end, { desc = "Exchange window split orientation", noremap = true })
 -- --------------------------------------------------------------------------------------------------------------------
 -- VISUAL MODE MAPPING
 -- --------------------------------------------------------------------------------------------------------------------
-map("v", "<leader>)", "gsa)", { remap = true })
-map("v", "<leader>}", "gsa}", { remap = true })
-map("v", "<leader>]", "gsa]", { remap = true })
-map("v", '<leader>"', 'gsa"', { remap = true })
-map("v", "<leader>'", "gsa'", { remap = true })
+map("v", "P", '"+p', { noremap = true }) -- Paste from windows clipboard
+map("v", "Y", '"+y', { noremap = true }) -- Yank to windows clipboard
+
+map("v", "<leader>)", "gsa)", { remap = true }) -- Muscle memory to trigger surround actions
+map("v", "<leader>}", "gsa}", { remap = true }) -- Muscle memory to trigger surround actions
+map("v", "<leader>]", "gsa]", { remap = true }) -- Muscle memory to trigger surround actions
+map("v", '<leader>"', 'gsa"', { remap = true }) -- Muscle memory to trigger surround actions
+map("v", "<leader>'", "gsa'", { remap = true }) -- Muscle memory to trigger surround actions
 
 if true then
   return {}
