@@ -3,7 +3,7 @@
 -- Add any additional options here
 -- This file is automatically loaded by plugins.core
 vim.g.mapleader = " "
-vim.g.maplocalleader = "\\"
+vim.g.maplocalleader = ","
 
 -- LazyVim auto format
 vim.g.autoformat = true
@@ -33,7 +33,7 @@ vim.g.ai_cmp = true
 -- * the name of a detector function like `lsp` or `cwd`
 -- * a pattern or array of patterns like `.git` or `lua`.
 -- * a function with signature `function(buf) -> string|string[]`
-vim.g.root_spec = { "lsp", { ".git", "lua" }, "cwd" }
+vim.g.root_spec = { "lsp", { ".git", "lua", ".hg" }, "cwd" }
 
 -- Optionally setup the terminal to use
 -- This sets `vim.o.shell` and does some additional configuration for:
@@ -52,7 +52,34 @@ vim.g.deprecation_warnings = false
 -- You can disable this for a buffer by setting `vim.b.trouble_lualine = false`
 vim.g.trouble_lualine = true
 
+local g = vim.g
+-- Global variable settings (Im not sure about these anymore after a decade of evolution)
+g.autoformat_enabled = true -- enable or disable auto formatting at start (lsp.formatting.format_on_save must be enabled)
+g.autopairs_enabled = true -- enable autopairs at start
+g.cmp_enabled = true -- enable completion at start
+g.diagnostics_mode = 3 -- set the visibility of diagnostics in the UI (0=off, 1=only show in status line, 2=virtual text off, 3=all on)
+g.icons_enabled = true -- disable icons in the UI (disable if no nerd font is available, requires :PackerSync after changing)
+g.ui_notifications_enabled = true -- disable notifications when toggling UI elements
+g.vim_json_conceal = 0
+
+-- Global variable settings
+g.loaded_perl_provider = 0 -- Disable provider as it unused
+g.loaded_node_provider = 0 -- Disable provider as it unused
+g.loaded_ruby_provider = 0 -- Disable provider as it unused
+g.loaded_python_provider = 0 -- Disable provider as it unused
+g.loaded_python3_provider = 0 -- Disable python3 provider due to nvim errors in 0.10.1
+-- g.mergetool_layout = 'mr'
+-- g.mergetool_prefer_revision = 'local'
+
 local opt = vim.opt
+local nvim_appname = os.getenv("NVIM_APPNAME") or "nvim"
+local state_dir = os.getenv("XDG_STATE_HOME") or (os.getenv("HOME") .. "/.local/state")
+
+opt.backup = true
+opt.backupdir = ".bkp/," .. state_dir .. "/" .. nvim_appname .. "/backup/"
+opt.writebackup = true
+opt.undodir = state_dir .. "/" .. nvim_appname .. "/undo/,."
+opt.undofile = true
 
 opt.autowrite = true -- Enable auto write
 -- only set clipboard if not in ssh, to make sure the OSC 52
@@ -61,6 +88,7 @@ opt.clipboard = vim.env.SSH_TTY and "" or "unnamedplus" -- Sync with system clip
 opt.completeopt = "menu,menuone,noselect"
 opt.conceallevel = 2 -- Hide * markup for bold and italic, but not markers with substitutions
 opt.confirm = true -- Confirm to save changes before exiting modified buffer
+opt.cursorcolumn = true -- Enable highlighting of the current line
 opt.cursorline = true -- Enable highlighting of the current line
 opt.expandtab = true -- Use spaces instead of tabs
 opt.fillchars = {
@@ -71,7 +99,10 @@ opt.fillchars = {
   diff = "╱",
   eob = " ",
 }
+opt.foldcolumn = "auto"
 opt.foldlevel = 99
+opt.foldlevelstart = -1
+opt.foldenable = true
 opt.formatexpr = "v:lua.require'lazyvim.util'.format.formatexpr()"
 opt.formatoptions = "jcroqlnt" -- tcqj
 opt.grepformat = "%f:%l:%c:%m"
@@ -82,13 +113,16 @@ opt.jumpoptions = "view"
 opt.laststatus = 3 -- global statusline
 opt.linebreak = true -- Wrap lines at convenient points
 opt.list = true -- Show some invisible characters (tabs...
+opt.listchars = { tab = " ", extends = "⟩", precedes = "⟨", trail = "·", eol = "¬" }
+opt.modeline = true -- Enable modeline
 opt.mouse = "a" -- Enable mouse mode
 opt.number = true -- Print line number
 opt.pumblend = 10 -- Popup blend
 opt.pumheight = 10 -- Maximum number of entries in a popup
-opt.relativenumber = true -- Relative line numbers
+opt.relativenumber = false -- Relative line numbers
 opt.ruler = false -- Disable the default ruler
-opt.scrolloff = 4 -- Lines of context
+opt.scrolloff = 5 -- Lines of context
+opt.showbreak = "↪ "
 opt.sessionoptions = { "buffers", "curdir", "tabpages", "winsize", "help", "globals", "skiprtp", "folds" }
 opt.shiftround = true -- Round indent
 opt.shiftwidth = 2 -- Size of an indent
@@ -98,21 +132,23 @@ opt.sidescrolloff = 8 -- Columns of context
 opt.signcolumn = "yes" -- Always show the signcolumn, otherwise it would shift the text each time
 opt.smartcase = true -- Don't ignore case with capitals
 opt.smartindent = true -- Insert indents automatically
+opt.spell = false
 opt.spelllang = { "en" }
+opt.spelloptions:append("noplainbuffer")
 opt.splitbelow = true -- Put new windows below current
 opt.splitkeep = "screen"
 opt.splitright = true -- Put new windows right of current
-opt.statuscolumn = [[%!v:lua.require'snacks.statuscolumn'.get()]]
+--opt.statuscolumn = [[%!v:lua.require'snacks.statuscolumn'.get()]]
 opt.tabstop = 2 -- Number of spaces tabs count for
+opt.termsync = false
 opt.termguicolors = true -- True color support
 opt.timeoutlen = vim.g.vscode and 1000 or 300 -- Lower than default (1000) to quickly trigger which-key
-opt.undofile = true
 opt.undolevels = 10000
 opt.updatetime = 200 -- Save swap file and trigger CursorHold
 opt.virtualedit = "block" -- Allow cursor to move where there is no text in visual block mode
 opt.wildmode = "longest:full,full" -- Command-line completion mode
 opt.winminwidth = 5 -- Minimum window width
-opt.wrap = false -- Disable line wrap
+opt.wrap = true -- Enable line wrap
 
 if vim.fn.has("nvim-0.10") == 1 then
   opt.smoothscroll = true
