@@ -8,6 +8,30 @@
 -- e.g. vim.api.nvim_del_augroup_by_name("lazyvim_wrap_spell")
 
 ---------------------------------------------------------------
+--- Original vim.cmd autocmds for filetype settings
+---    Im not sure lua is better here, look how dense & simple this is
+---------------------------------------------------------------
+-- vim.cmd([[
+--       augroup user_filetype_settings
+--       autocmd!
+--       autocmd BufNewFile,BufRead .envrc setfiletype sh
+--       autocmd BufNewFile,BufRead *.shrc setfiletype bash
+--       autocmd BufNewFile,BufRead *.avsc setfiletype json
+--       autocmd BufNewFile,BufRead *.rss *.atom setfiletype xml
+--       autocmd BufNewFile,BufRead *.json setfiletype jsonc
+--       autocmd FileType markdown,text,gitcommit setlocal spell
+--       autocmd BufWritePost tmux.conf execute ':!tmux source-file %'
+--       autocmd FileType help if winwidth("%")>4.5*winheight("%") | wincmd L | else | wincmd K | endif
+--       augroup END
+--       tnoremap <Esc><Esc> <C-\><C-n>
+-- ]])
+-- "autocmd bufwritepost tmux.conf execute ':!tmux-refresh all'
+-- "autocmd FileType help if winwidth("%")>4.5*winheight("%") | echo "wincmd L" | else | echo "wincmd K" | endif
+-- "autocmd FileType man if winwidth("%")>4.5*winheight("%") | wincmd L | else | wincmd K | endif
+-- "autocmd FileType help if winnr('$') > 2 && winwidth("%")> 2.2*winheight("%")  | wincmd K | else | wincmd L | endif
+-- "autocmd BufNewFile,BufRead *.json set filetype=jsonc
+
+---------------------------------------------------------------
 -- User filetype settings
 ---------------------------------------------------------------
 vim.api.nvim_create_augroup("user_filetype_settings", { clear = true })
@@ -78,9 +102,9 @@ vim.api.nvim_create_autocmd("FileType", {
   group = "user_filetype_settings",
 })
 
----------------------------------------------------------------
+-----------------------------------------------------------------------------
 -- Attempt to fix concealment for HTML comments in Markdown
----------------------------------------------------------------
+-----------------------------------------------------------------------------
 vim.api.nvim_create_autocmd("FileType", {
   pattern = "markdown",
   callback = function()
