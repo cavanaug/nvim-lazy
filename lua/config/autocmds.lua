@@ -6,6 +6,81 @@
 --
 -- Or remove existing autocmds by their group name (which is prefixed with `lazyvim_` for the defaults)
 -- e.g. vim.api.nvim_del_augroup_by_name("lazyvim_wrap_spell")
+
+---------------------------------------------------------------
+-- User filetype settings
+---------------------------------------------------------------
+vim.api.nvim_create_augroup("user_filetype_settings", { clear = true })
+
+---------------------------------------------------------------
+-- Set filetypes for specific files
+---------------------------------------------------------------
+vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
+  pattern = ".envrc",
+  command = "setfiletype sh",
+  group = "user_filetype_settings",
+})
+
+vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
+  pattern = "*.shrc",
+  command = "setfiletype bash",
+  group = "user_filetype_settings",
+})
+
+vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
+  pattern = "*.avsc",
+  command = "setfiletype json",
+  group = "user_filetype_settings",
+})
+
+vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
+  pattern = { "*.rss", "*.atom" },
+  command = "setfiletype xml",
+  group = "user_filetype_settings",
+})
+
+vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
+  pattern = "*.json",
+  command = "setfiletype jsonc",
+  group = "user_filetype_settings",
+})
+
+---------------------------------------------------------------
+-- Set spell for certain filetypes
+---------------------------------------------------------------
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = { "markdown", "text", "gitcommit" },
+  command = "setlocal spell",
+  group = "user_filetype_settings",
+})
+
+---------------------------------------------------------------
+-- Automatically source tmux.conf after writing it
+---------------------------------------------------------------
+vim.api.nvim_create_autocmd("BufWritePost", {
+  pattern = "tmux.conf",
+  command = ":!tmux source-file %",
+  group = "user_filetype_settings",
+})
+
+---------------------------------------------------------------
+-- Automatically Adjust help window split
+---------------------------------------------------------------
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "help",
+  callback = function()
+    if vim.fn.winwidth(0) > 4.5 * vim.fn.winheight(0) then
+      vim.cmd("wincmd L")
+    else
+      vim.cmd("wincmd K")
+    end
+  end,
+  group = "user_filetype_settings",
+})
+
+---------------------------------------------------------------
+-- Attempt to fix concealment for HTML comments in Markdown
+---------------------------------------------------------------
 vim.api.nvim_create_autocmd("FileType", {
   pattern = "markdown",
   callback = function()

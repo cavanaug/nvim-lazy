@@ -4,22 +4,12 @@
 
 ## Backlog
 
-### v4 Migration
-
-- alpha, redo my custom ordering, or maybe just move to session mgmt
-- read about new astrovim root settings
-- research git plugin showing blame info
+### Lazyvim Migration
 
 ### Next Items
 
-- Folke flash fix / vs f (Is this fixed??)
-- tmux, sessionx
 - tmux, vim & wsl clipboard
 - diffview (see icebox)
-- History command with fzf
-- Surround chars with the lsp select
-- noice (do I really want it), what about vscode cmd window keybind
-- Man in vim is nice, but the left sidebar/folding etc messes up formatting
 
 ### Todo Items
 
@@ -34,7 +24,6 @@
 - Final mappings
 - Hydra plugin for state based mappings??
 - Folding (understand ufo preview & color highlighting)
-- Neotree (understand full path)
 - Develop new solution for ctrl-g that pops a window with more info
 
 ### Tolearn Items
