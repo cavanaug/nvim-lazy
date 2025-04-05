@@ -12,10 +12,13 @@ local map = vim.keymap.set
 -- NORMAL MODE MAPPING
 -- --------------------------------------------------------------------------------------------------------------------
 
--- These are not needed in LazyVim
--- map("n", "H", "<cmd>bprev<cr>", { noremap = true })
--- map("n", "L", "<cmd>bnext<cr>", { noremap = true })
-map("n", "<M-,>", "<cmd>ToggleTerm<cr>", { noremap = true })
+-- map("n", "H", "<cmd>bprev<cr>", { noremap = true }) -- Not needed in LazyVim
+-- map("n", "L", "<cmd>bnext<cr>", { noremap = true }) -- Not needed in LazyVim
+
+map("n", "P", '"+p', { noremap = true }) -- Paste from windows clipboard
+map("n", "Y", '"+y', { noremap = true }) -- Yank to windows clipboard
+
+map("n", "<M-,>", "<cmd>ToggleTerm<cr>", { noremap = true }) -- Shortcut to toggle terminal (if using ToggleTerm)
 
 -- map("n", "<C-Space>", "za", { desc = "Toggle fold under cursor (*)" })
 
@@ -23,8 +26,10 @@ map("n", "<M-,>", "<cmd>ToggleTerm<cr>", { noremap = true })
 -- map("n", "<C-Enter>", "", { desc = "Step into topic (*)" })
 -- map("n", "<C-BS>", "", { desc = "Step out of topic (*)" })
 
--- Close current buffer
---    Previously "<leader>c" in astrovim
+----------------------------------------
+--- Close current buffer
+---    Previously "<leader>c" in astrovim
+----------------------------------------
 map("n", "<C-C>", function()
   local buffer_count = 0
   for _, bufinfo in ipairs(vim.fn.getbufinfo({ buflisted = 1 })) do
@@ -37,7 +42,9 @@ map("n", "<C-C>", function()
   end
 end, { desc = "Close pane (*)" })
 
--- Toogle Window Split Orientation
+----------------------------------------
+--- Toogle Window Split Orientation
+----------------------------------------
 map("n", "<C-e>", function()
   local win1 = vim.api.nvim_list_wins()[1]
   local win2 = vim.api.nvim_list_wins()[2]
@@ -72,13 +79,6 @@ if true then
   return {}
 end -- WARN: REMOVE THIS LINE TO ACTIVATE THIS FILE
 
---                 v = {
---                     --
---                     -- Clipboard Mappings
---                     --
---                     ["<leader>Y"] = { '"+y', desc = "Yank to system clipboard (*)" },
---                     ["<leader>P"] = { '"+p', desc = "Paste from system clipboard (*)" },
---                 },
 --                 n = {
 --                     -- Improved
 --                     --

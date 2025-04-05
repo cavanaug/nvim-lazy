@@ -57,12 +57,13 @@ return {
   ---  THEME PREVIEW  ---------------------------------------------------------------------------------------------
   {
     "zaldih/themery.nvim",
+    enabled = false, -- set to `true` to enable themery, this will override the colorscheme in LazyVim
     lazy = false,
     config = function()
       require("themery").setup({
         themes = vim.fn.getcompletion("", "color"),
       })
-      require("themery").setThemeByName("vscode", true)
+      require("themery").setThemeByName("kanagawa", true)
     end,
   },
 }
