@@ -1,3 +1,17 @@
+-- Clipboard configuration for Wayland using wl-copy and wl-paste
+vim.g.clipboard = {
+  name = "WaylandClipboard",
+  copy = {
+    ["+"] = "wl-copy", -- Copy to clipboard using wl-copy
+    ["*"] = "wl-copy", -- Copy to primary selection using wl-copy
+  },
+  paste = {
+    ["+"] = "wl-paste --no-newline", -- Paste from clipboard using wl-paste
+    ["*"] = "wl-paste --no-newline", -- Paste from primary selection using wl-paste
+  },
+  cache_enabled = 0, -- Disable clipboard cache
+}
+
 return {
   {
     "gbprod/yanky.nvim", -- Yanky plugin URL
@@ -12,20 +26,6 @@ return {
           ignore_empty = true, -- Ignore empty yanks
         },
       })
-
-      -- Clipboard configuration for Wayland using wl-copy and wl-paste
-      vim.g.clipboard = {
-        name = "WaylandClipboard",
-        copy = {
-          ["+"] = "wl-copy", -- Copy to clipboard using wl-copy
-          --          ["*"] = "wl-copy", -- Copy to primary selection using wl-copy
-        },
-        paste = {
-          ["+"] = "wl-paste --no-newline", -- Paste from clipboard using wl-paste
-          --          ["*"] = "wl-paste --no-newline", -- Paste from primary selection using wl-paste
-        },
-        cache_enabled = 0, -- Disable clipboard cache
-      }
     end,
   },
 }

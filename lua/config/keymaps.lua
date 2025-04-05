@@ -9,14 +9,30 @@ local map = vim.keymap.set
 -- --------------------------------------------------------------------------------------------------------------------
 
 -- --------------------------------------------------------------------------------------------------------------------
+-- VISUAL MODE MAPPING
+-- --------------------------------------------------------------------------------------------------------------------
+map("v", ",p", '"+p', { noremap = true }) -- Paste from windows clipboard
+map("v", ",P", '"+P', { noremap = true }) -- Paste from windows clipboard
+map("v", ",y", '"+y', { noremap = true }) -- Yank to windows clipboard
+map("v", ",Y", '"+y$', { noremap = true }) -- Yank to windows clipboard
+
+map("v", "<leader>)", "gsa)", { remap = true }) -- Muscle memory to trigger surround actions
+map("v", "<leader>}", "gsa}", { remap = true }) -- Muscle memory to trigger surround actions
+map("v", "<leader>]", "gsa]", { remap = true }) -- Muscle memory to trigger surround actions
+map("v", '<leader>"', 'gsa"', { remap = true }) -- Muscle memory to trigger surround actions
+map("v", "<leader>'", "gsa'", { remap = true }) -- Muscle memory to trigger surround actions
+
+-- --------------------------------------------------------------------------------------------------------------------
 -- NORMAL MODE MAPPING
 -- --------------------------------------------------------------------------------------------------------------------
 
 -- map("n", "H", "<cmd>bprev<cr>", { noremap = true }) -- Not needed in LazyVim
 -- map("n", "L", "<cmd>bnext<cr>", { noremap = true }) -- Not needed in LazyVim
 
-map("n", "P", '"+p', { noremap = true }) -- Paste from windows clipboard
-map("n", "Y", '"+y', { noremap = true }) -- Yank to windows clipboard
+map("n", ",p", '"+p', { noremap = true }) -- Paste from windows clipboard
+map("n", ",P", '"+P', { noremap = true }) -- Paste from windows clipboard
+map("n", ",y", '"+y', { noremap = true }) -- Yank to windows clipboard
+map("n", ",Y", '"+y$', { noremap = true }) -- Yank to windows clipboard
 
 -- map("n", "<M-,>", "<cmd>ToggleTerm<cr>", { noremap = true }) -- Shortcut to toggle terminal (if using ToggleTerm)
 
@@ -65,18 +81,6 @@ map("n", "<C-e>", function()
     vim.cmd("wincmd H") -- Move the second window to be side-by-side (vertical)
   end
 end, { desc = "Exchange window split orientation", noremap = true })
-
--- --------------------------------------------------------------------------------------------------------------------
--- VISUAL MODE MAPPING
--- --------------------------------------------------------------------------------------------------------------------
-map("v", "P", '"+p', { noremap = true }) -- Paste from windows clipboard
-map("v", "Y", '"+y', { noremap = true }) -- Yank to windows clipboard
-
-map("v", "<leader>)", "gsa)", { remap = true }) -- Muscle memory to trigger surround actions
-map("v", "<leader>}", "gsa}", { remap = true }) -- Muscle memory to trigger surround actions
-map("v", "<leader>]", "gsa]", { remap = true }) -- Muscle memory to trigger surround actions
-map("v", '<leader>"', 'gsa"', { remap = true }) -- Muscle memory to trigger surround actions
-map("v", "<leader>'", "gsa'", { remap = true }) -- Muscle memory to trigger surround actions
 
 if true then
   return {}
