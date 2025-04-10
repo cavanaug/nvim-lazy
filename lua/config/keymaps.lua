@@ -18,6 +18,12 @@ map("v", ",P", '"+P', { noremap = true }) -- Paste from windows clipboard
 map("v", ",y", '"+y', { noremap = true }) -- Yank to windows clipboard
 map("v", ",Y", '"+y$', { noremap = true }) -- Yank to windows clipboard
 
+map("n", "<localleader>)", "viwgsa)", { remap = true }) -- Muscle memory to trigger surround actions
+map("n", "<localleader>}", "viwgsa}", { remap = true }) -- Muscle memory to trigger surround actions
+map("n", "<localleader>]", "viwgsa]", { remap = true }) -- Muscle memory to trigger surround actions
+map("n", '<localleader>"', 'viwgsa"', { remap = true }) -- Muscle memory to trigger surround actions
+map("n", "<localleader>'", "viwgsa'", { remap = true }) -- Muscle memory to trigger surround actions
+
 map("v", "<leader>)", "gsa)", { remap = true }) -- Muscle memory to trigger surround actions
 map("v", "<leader>}", "gsa}", { remap = true }) -- Muscle memory to trigger surround actions
 map("v", "<leader>]", "gsa]", { remap = true }) -- Muscle memory to trigger surround actions
