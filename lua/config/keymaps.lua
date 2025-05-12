@@ -13,10 +13,10 @@ local map = vim.keymap.set
 -- --------------------------------------------------------------------------------------------------------------------
 -- VISUAL MODE MAPPING
 -- --------------------------------------------------------------------------------------------------------------------
-map("v", ",p", '"+p', { noremap = true }) -- Paste from windows clipboard
-map("v", ",P", '"+P', { noremap = true }) -- Paste from windows clipboard
-map("v", ",y", '"+y', { noremap = true }) -- Yank to windows clipboard
-map("v", ",Y", '"+y$', { noremap = true }) -- Yank to windows clipboard
+map("v", "<localleader>p", '"+p', { noremap = true }) -- Paste from windows clipboard
+map("v", "<localleader>P", '"+P', { noremap = true }) -- Paste from windows clipboard
+map("v", "<localleader>y", '"+y', { noremap = true }) -- Yank to windows clipboard
+map("v", "<localleader>Y", '"+y$', { noremap = true }) -- Yank to windows clipboard
 
 map("n", "<localleader>)", "viwgsa)", { remap = true }) -- Muscle memory to trigger surround actions
 map("n", "<localleader>}", "viwgsa}", { remap = true }) -- Muscle memory to trigger surround actions
