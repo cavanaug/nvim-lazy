@@ -78,6 +78,7 @@ local state_dir = os.getenv("XDG_STATE_HOME") or (os.getenv("HOME") .. "/.local/
 opt.backup = true
 opt.backupdir = ".bkp/," .. state_dir .. "/" .. nvim_appname .. "/backup/"
 opt.writebackup = true
+
 opt.undodir = state_dir .. "/" .. nvim_appname .. "/undo/,."
 opt.undofile = true
 
