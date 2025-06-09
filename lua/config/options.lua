@@ -80,6 +80,10 @@ opt.backupdir = ".bkp/," .. state_dir .. "/" .. nvim_appname .. "/backup/"
 opt.writebackup = true
 
 opt.undodir = state_dir .. "/" .. nvim_appname .. "/undo/,."
+local actual_undodir = vim.fn.fnamemodify(vim.fn.split(opt.undodir:get(), ",")[1], ":p")
+if vim.fn.isdirectory(actual_undodir) == 0 then
+  vim.fn.mkdir(actual_undodir, "p")
+end
 opt.undofile = true
 
 opt.autowrite = true -- Enable auto write
