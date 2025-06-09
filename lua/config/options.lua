@@ -77,6 +77,10 @@ local state_dir = os.getenv("XDG_STATE_HOME") or (os.getenv("HOME") .. "/.local/
 
 opt.backup = true
 opt.backupdir = ".bkp/," .. state_dir .. "/" .. nvim_appname .. "/backup/"
+local actual_backupdir = vim.fn.fnamemodify(vim.fn.split(opt.backupdir:get(), ",")[2], ":p")
+if vim.fn.isdirectory(actual_backupdir) == 0 then
+  vim.fn.mkdir(actual_backupdir, "p")
+end
 opt.writebackup = true
 
 opt.undodir = state_dir .. "/" .. nvim_appname .. "/undo/,."
