@@ -76,19 +76,19 @@ local nvim_appname = os.getenv("NVIM_APPNAME") or "nvim"
 local state_dir = os.getenv("XDG_STATE_HOME") or (os.getenv("HOME") .. "/.local/state")
 
 opt.backup = true
+opt.writebackup = true
 opt.backupdir = ".bkp/," .. state_dir .. "/" .. nvim_appname .. "/backup/"
 local actual_backupdir = vim.fn.fnamemodify(vim.fn.split(opt.backupdir:get(), ",")[2], ":p")
 if vim.fn.isdirectory(actual_backupdir) == 0 then
   vim.fn.mkdir(actual_backupdir, "p")
 end
-opt.writebackup = true
 
+opt.undofile = true
 opt.undodir = state_dir .. "/" .. nvim_appname .. "/undo/,."
 local actual_undodir = vim.fn.fnamemodify(vim.fn.split(opt.undodir:get(), ",")[1], ":p")
 if vim.fn.isdirectory(actual_undodir) == 0 then
   vim.fn.mkdir(actual_undodir, "p")
 end
-opt.undofile = true
 
 opt.autowrite = true -- Enable auto write
 -- only set clipboard if not in ssh, to make sure the OSC 52
