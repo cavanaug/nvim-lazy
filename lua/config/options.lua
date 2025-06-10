@@ -78,8 +78,21 @@ local state_dir = os.getenv("XDG_STATE_HOME") or (os.getenv("HOME") .. "/.local/
 opt.backup = true
 opt.writebackup = true
 opt.backupdir = ".bkp/," .. state_dir .. "/" .. nvim_appname .. "/backup/"
-local actual_backupdir = vim.fn.fnamemodify(vim.fn.split(opt.backupdir:get(), ",")[2], ":p")
-if vim.fn.isdirectory(actual_backupdir) == 0 then
+local backup_path_component = vim.fn.split(opt.backupdir:get(), ",")[2]
+local actual_backupdir
+if type(backup_path_component) == "string" then
+  actual_backupdir = vim.fn.fnamemodify(backup_path_component, ":p")
+else
+  vim.api.nvim_err_writeln(
+    "Error setting up backup directory: path component is not a string. Type: "
+      .. type(backup_path_component)
+      .. ", Value: "
+      .. vim.inspect(backup_path_component)
+  )
+  actual_backupdir = nil -- Skip creating this backup directory path
+end
+
+if actual_backupdir and vim.fn.isdirectory(actual_backupdir) == 0 then
   vim.fn.mkdir(actual_backupdir, "p")
 end
 
