@@ -71,11 +71,14 @@ g.loaded_python3_provider = 0 -- Disable python3 provider due to nvim errors in 
 -- g.mergetool_layout = 'mr'
 -- g.mergetool_prefer_revision = 'local'
 
+-- Settings for XDG variables so that they are "per" NVIM_APPNAME
 local opt = vim.opt
 local nvim_appname = os.getenv("NVIM_APPNAME") or "nvim"
 local xdg = os.getenv("XDG_STATE_HOME") or (os.getenv("HOME") .. "/.local/state")
 local xdg_nvim_backup = xdg .. "/" .. nvim_appname .. "/backup"
 local xdg_nvim_undo = xdg .. "/" .. nvim_appname .. "/undo"
+
+-- Make the backup and undo directories if they do not exist
 if xdg_nvim_backup and vim.fn.isdirectory(xdg_nvim_backup) == 0 then
   vim.fn.mkdir(xdg_nvim_backup, "p")
 end
