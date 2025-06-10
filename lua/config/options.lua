@@ -73,36 +73,21 @@ g.loaded_python3_provider = 0 -- Disable python3 provider due to nvim errors in 
 
 local opt = vim.opt
 local nvim_appname = os.getenv("NVIM_APPNAME") or "nvim"
-local state_dir = os.getenv("XDG_STATE_HOME") or (os.getenv("HOME") .. "/.local/state")
+local xdg = os.getenv("XDG_STATE_HOME") or (os.getenv("HOME") .. "/.local/state")
+local xdg_nvim_backup = xdg .. "/" .. nvim_appname .. "/backup"
+local xdg_nvim_undo = xdg .. "/" .. nvim_appname .. "/undo"
+if xdg_nvim_backup and vim.fn.isdirectory(xdg_nvim_backup) == 0 then
+  vim.fn.mkdir(xdg_nvim_backup, "p")
+end
+if xdg_nvim_undo and vim.fn.isdirectory(xdg_nvim_undo) == 0 then
+  vim.fn.mkdir(xdg_nvim_undo, "p")
+end
 
 opt.backup = true
 opt.writebackup = true
-opt.backupdir = ".bkp/," .. state_dir .. "/" .. nvim_appname .. "/backup/"
-local backup_path_component = vim.fn.split(opt.backupdir:get(), ",")[2]
-local actual_backupdir
-if type(backup_path_component) == "string" then
-  actual_backupdir = vim.fn.fnamemodify(backup_path_component, ":p")
-else
-  vim.api.nvim_err_writeln(
-    "Error setting up backup directory: path component is not a string. Type: "
-      .. type(backup_path_component)
-      .. ", Value: "
-      .. vim.inspect(backup_path_component)
-  )
-  actual_backupdir = nil -- Skip creating this backup directory path
-end
-
-if actual_backupdir and vim.fn.isdirectory(actual_backupdir) == 0 then
-  vim.fn.mkdir(actual_backupdir, "p")
-end
-
+opt.backupdir = ".bkp/," .. xdg_nvim_backup
 opt.undofile = true
-opt.undodir = state_dir .. "/" .. nvim_appname .. "/undo/,."
-local actual_undodir = vim.fn.fnamemodify(vim.fn.split(opt.undodir:get(), ",")[1], ":p")
-if vim.fn.isdirectory(actual_undodir) == 0 then
-  vim.fn.mkdir(actual_undodir, "p")
-end
-
+opt.undodir = ".bkp/," .. xdg_nvim_undo
 opt.autowrite = true -- Enable auto write
 -- only set clipboard if not in ssh, to make sure the OSC 52
 -- integration works automatically. Requires Neovim >= 0.10.0
