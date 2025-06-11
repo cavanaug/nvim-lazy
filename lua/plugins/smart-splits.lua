@@ -98,6 +98,10 @@ return {
         desc = "Swap right (*)",
       },
     },
-    opts = { ignored_filetypes = { "nofile", "quickfix", "qf", "prompt" }, ignored_buftypes = { "nofile" } },
+    opts = {
+      ignored_filetypes = { "nofile", "quickfix", "qf", "prompt" },
+      ignored_buftypes = { "nofile" },
+      zellij_move_focus_or_tab = true,
+    },
   },
 }
