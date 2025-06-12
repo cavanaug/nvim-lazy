@@ -14,6 +14,13 @@ return {
       })
     end,
   },
+  {
+    "2kabhishek/nerdy.nvim",
+    dependencies = {
+      "folke/snacks.nvim",
+    },
+    cmd = "Nerdy",
+  },
   -- {
   --   -- Prettier indent markers
   --   "lukas-reineke/indent-blankline.nvim",
