@@ -8,14 +8,32 @@ return {
   { "nalexpear/spacegray.nvim", lazy = false },
   { "rebelot/kanagawa.nvim", lazy = false },
   { "rose-pine/neovim", lazy = false },
-  { "sainnhe/sonokai", lazy = false },
+  { 
+    "sainnhe/sonokai", 
+    lazy = false,
+    config = function()
+      vim.g.sonokai_style = 'default'
+      vim.g.sonokai_disable_italic_comment = 1
+      
+      -- Set diagnostic virtual text to italic
+      vim.api.nvim_create_autocmd("ColorScheme", {
+        pattern = "sonokai",
+        callback = function()
+          vim.api.nvim_set_hl(0, "DiagnosticVirtualTextError", { italic = true, bold = true, fg = "#a8485c" })
+          vim.api.nvim_set_hl(0, "DiagnosticVirtualTextWarn", { italic = true, bold = true, fg = "#a8485c" })
+          vim.api.nvim_set_hl(0, "DiagnosticVirtualTextInfo", { italic = true, bold = true, fg = "#808080" })
+          vim.api.nvim_set_hl(0, "DiagnosticVirtualTextHint", { italic = true, bold = true, fg = "#808080" })
+        end,
+      })
+    end,
+  },
   { "sho-87/kanagawa-paper.nvim" },
   { "projekt0n/github-nvim-theme", lazy = false, priority = 1000 },
   { "vague2k/vague.nvim", lazy = false },
   --  { "chama-chomo/grail" },
   -- { "comfysage/aki" },
   -- { "folke/tokyonight.nvim", lazy = false },
-  -- { "catppuccin/nvim", name = "catppuccin", priority = 1000 },
+  { "catppuccin/nvim", name = "catppuccin", priority = 1000 },
   -- { "alexvzyl/nordic.nvim" },
   -- { "antonk52/lake.nvim" },
   -- { "behemothbucket/gruber-darker-theme.nvim" },
