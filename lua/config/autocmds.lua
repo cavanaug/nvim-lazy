@@ -115,3 +115,32 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.api.nvim_set_hl(0, "@comment.html", { fg = "#888888", bold = true })
   end,
 })
+
+-----------------------------------------------------------------------------
+-- Save/Restore fold markers views for markdown files
+-----------------------------------------------------------------------------
+vim.api.nvim_create_autocmd("BufWinEnter", {
+  pattern = "*.md",
+  callback = function()
+    pcall(vim.cmd, "silent! loadview")
+  end,
+})
+vim.api.nvim_create_autocmd("BufWinLeave", {
+  pattern = "*.md",
+  callback = function()
+    pcall(vim.cmd, "silent! mkview")
+  end,
+})
+-----------------------------------------------------------------------------
+-- Per file specific customizations
+-----------------------------------------------------------------------------
+vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
+  pattern = "*/_*_todo.md",
+  callback = function()
+    vim.opt_local.number = false
+    vim.opt_local.relativenumber = false
+    vim.opt_local.laststatus = 0
+    vim.opt_local.showmode = true
+    vim.opt_local.signcolumn = "no"
+  end,
+})

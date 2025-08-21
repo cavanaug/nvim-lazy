@@ -77,6 +77,7 @@ local nvim_appname = os.getenv("NVIM_APPNAME") or "nvim"
 local xdg = os.getenv("XDG_STATE_HOME") or (os.getenv("HOME") .. "/.local/state")
 local xdg_nvim_backup = xdg .. "/" .. nvim_appname .. "/backup"
 local xdg_nvim_undo = xdg .. "/" .. nvim_appname .. "/undo"
+local xdg_nvim_view = xdg .. "/" .. nvim_appname .. "/view"
 
 -- Make the backup and undo directories if they do not exist
 if xdg_nvim_backup and vim.fn.isdirectory(xdg_nvim_backup) == 0 then
@@ -85,12 +86,16 @@ end
 if xdg_nvim_undo and vim.fn.isdirectory(xdg_nvim_undo) == 0 then
   vim.fn.mkdir(xdg_nvim_undo, "p")
 end
+if xdg_nvim_view and vim.fn.isdirectory(xdg_nvim_view) == 0 then
+  vim.fn.mkdir(xdg_nvim_view, "p")
+end
 
 opt.backup = true
 opt.writebackup = true
 opt.backupdir = ".bkp/," .. xdg_nvim_backup
 opt.undofile = true
 opt.undodir = ".bkp/," .. xdg_nvim_undo
+opt.viewdir = xdg_nvim_view
 opt.autowrite = true -- Enable auto write
 -- only set clipboard if not in ssh, to make sure the OSC 52
 -- integration works automatically. Requires Neovim >= 0.10.0
