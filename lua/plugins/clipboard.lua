@@ -6,8 +6,8 @@ vim.g.clipboard = {
     ["*"] = "wl-copy", -- Copy to primary selection using wl-copy
   },
   paste = {
-    ["+"] = "wl-paste --no-newline", -- Paste from clipboard using wl-paste
-    ["*"] = "wl-paste --no-newline", -- Paste from primary selection using wl-paste
+    ["+"] = "win-paste --no-newline", -- Paste from clipboard using wl-paste
+    ["*"] = "win-paste --no-newline", -- Paste from primary selection using wl-paste
   },
   cache_enabled = 0, -- Disable clipboard cache
 }
