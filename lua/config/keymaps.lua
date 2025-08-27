@@ -2,15 +2,15 @@
 -- Add any additional keymaps here
 local map = vim.keymap.set
 
--- --------------------------------------------------------------------------------------------------------------------
+-- -----------------------------------------------------------------------------------------------------------------
 -- GLOBAL MAPPINGS
 --     -- General maps only here
 --     -- Things that are domain specific should put in the specific plugin area (ie. terminal/toggleterm)
--- --------------------------------------------------------------------------------------------------------------------
+-- -----------------------------------------------------------------------------------------------------------------
 
 -- vim.api.nvim_set_keymap('t', '<Esc><Esc>', '<C-\\><C-n>', { noremap = true, silent = true })
 
--- --------------------------------------------------------------------------------------------------------------------
+-- -----------------------------------------------------------------------------------------------------------------
 -- VISUAL MODE MAPPING
 -- --------------------------------------------------------------------------------------------------------------------
 map("v", "<localleader>p", '"+p', { noremap = true }) -- Paste from windows clipboard
@@ -18,21 +18,21 @@ map("v", "<localleader>P", '"+P', { noremap = true }) -- Paste from windows clip
 map("v", "<localleader>y", '"+y', { noremap = true }) -- Yank to windows clipboard
 map("v", "<localleader>Y", '"+y$', { noremap = true }) -- Yank to windows clipboard
 
-map("n", "<localleader>)", "viwgsa)", { remap = true }) -- Muscle memory to trigger surround actions
-map("n", "<localleader>}", "viwgsa}", { remap = true }) -- Muscle memory to trigger surround actions
-map("n", "<localleader>]", "viwgsa]", { remap = true }) -- Muscle memory to trigger surround actions
-map("n", '<localleader>"', 'viwgsa"', { remap = true }) -- Muscle memory to trigger surround actions
-map("n", "<localleader>'", "viwgsa'", { remap = true }) -- Muscle memory to trigger surround actions
+map("v", "<localleader>)", "viwgsa)", { remap = true }) -- Muscle memory to trigger surround actions
+map("v", "<localleader>}", "viwgsa}", { remap = true }) -- Muscle memory to trigger surround actions
+map("v", "<localleader>]", "viwgsa]", { remap = true }) -- Muscle memory to trigger surround actions
+map("v", '<localleader>"', 'viwgsa"', { remap = true }) -- Muscle memory to trigger surround actions
+map("v", "<localleader>'", "viwgsa'", { remap = true }) -- Muscle memory to trigger surround actions
 
-map("v", "<leader>)", "gsa)", { remap = true }) -- Muscle memory to trigger surround actions
-map("v", "<leader>}", "gsa}", { remap = true }) -- Muscle memory to trigger surround actions
-map("v", "<leader>]", "gsa]", { remap = true }) -- Muscle memory to trigger surround actions
-map("v", '<leader>"', 'gsa"', { remap = true }) -- Muscle memory to trigger surround actions
-map("v", "<leader>'", "gsa'", { remap = true }) -- Muscle memory to trigger surround actions
+-- map("v", "<leader>)", "gsa)", { remap = true }) -- Muscle memory to trigger surround actions
+-- map("v", "<leader>}", "gsa}", { remap = true }) -- Muscle memory to trigger surround actions
+-- map("v", "<leader>]", "gsa]", { remap = true }) -- Muscle memory to trigger surround actions
+-- map("v", '<leader>"', 'gsa"', { remap = true }) -- Muscle memory to trigger surround actions
+-- map("v", "<leader>'", "gsa'", { remap = true }) -- Muscle memory to trigger surround actions
 
--- --------------------------------------------------------------------------------------------------------------------
+-- -----------------------------------------------------------------------------------------------------------------
 -- NORMAL MODE MAPPING
--- --------------------------------------------------------------------------------------------------------------------
+-- -----------------------------------------------------------------------------------------------------------------
 
 -- map("n", "H", "<cmd>bprev<cr>", { noremap = true }) -- Not needed in LazyVim
 -- map("n", "L", "<cmd>bnext<cr>", { noremap = true }) -- Not needed in LazyVim
@@ -41,6 +41,12 @@ map("n", ",p", '"+p', { noremap = true }) -- Paste from windows clipboard
 map("n", ",P", '"+P', { noremap = true }) -- Paste from windows clipboard
 map("n", ",y", '"+y', { noremap = true }) -- Yank to windows clipboard
 map("n", ",Y", '"+y$', { noremap = true }) -- Yank to windows clipboard
+
+map("n", "<localleader>)", "viwgsa)", { remap = true }) -- Muscle memory to trigger surround actions
+map("n", "<localleader>}", "viwgsa}", { remap = true }) -- Muscle memory to trigger surround actions
+map("n", "<localleader>]", "viwgsa]", { remap = true }) -- Muscle memory to trigger surround actions
+map("n", '<localleader>"', 'viwgsa"', { remap = true }) -- Muscle memory to trigger surround actions
+map("n", "<localleader>'", "viwgsa'", { remap = true }) -- Muscle memory to trigger surround actions
 
 -- map("n", "<M-,>", "<cmd>ToggleTerm<cr>", { noremap = true }) -- Shortcut to toggle terminal (if using ToggleTerm)
 
