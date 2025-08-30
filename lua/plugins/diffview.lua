@@ -46,24 +46,6 @@ return {
         callback = setup_diff_keymaps,
       })
 
-      -- Auto-close if no merge conflicts found
-      vim.api.nvim_create_autocmd("User", {
-        pattern = "DiffviewViewOpened",
-        callback = function()
-          local lib = require("diffview.lib")
-          local view = lib.get_current_view()
-
-          if view and view.panel and view.panel.list_view then
-            local files = view.panel.list_view:get_items()
-            if #files == 0 then
-              vim.schedule(function()
-                vim.cmd("DiffviewClose")
-                print("No merge conflicts found - closing diffview")
-              end)
-            end
-          end
-        end,
-      })
     end,
   },
 }
