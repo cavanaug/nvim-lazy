@@ -6,6 +6,7 @@ vim.keymap.set("t", "<Esc><Esc>", "<C-\\><C-N>", { noremap = true, silent = true
 return {
   {
     "akinsho/toggleterm.nvim",
+    enabled = false,
     version = "*",
     opts = {
       open_mapping = [[<M-,>]],
