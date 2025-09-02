@@ -2,12 +2,16 @@
 vim.g.clipboard = {
   name = "WaylandClipboard",
   copy = {
-    ["+"] = "wl-copy", -- Copy to clipboard using wl-copy
-    ["*"] = "wl-copy", -- Copy to primary selection using wl-copy
+    -- ["+"] = "wl-copy", -- Copy to clipboard using wl-copy
+    -- ["*"] = "wl-copy", -- Copy to primary selection using wl-copy
+    ["+"] = "win-copy", -- Copy to clipboard using wl-copy
+    ["*"] = "win-copy", -- Copy to primary selection using wl-copy
   },
   paste = {
-    ["+"] = "win-paste --no-newline", -- Paste from clipboard using wl-paste
-    ["*"] = "win-paste --no-newline", -- Paste from primary selection using wl-paste
+    -- ["+"] = "win-paste --no-newline", -- Paste from clipboard using wl-paste
+    -- ["*"] = "win-paste --no-newline", -- Paste from primary selection using wl-paste
+    ["+"] = "win-paste", -- Paste from clipboard using wl-paste
+    ["*"] = "win-paste", -- Paste from primary selection using wl-paste
   },
   cache_enabled = 0, -- Disable clipboard cache
 }

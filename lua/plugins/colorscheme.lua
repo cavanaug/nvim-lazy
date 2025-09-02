@@ -8,13 +8,13 @@ return {
   { "nalexpear/spacegray.nvim", lazy = false },
   { "rebelot/kanagawa.nvim", lazy = false },
   { "rose-pine/neovim", lazy = false },
-  { 
-    "sainnhe/sonokai", 
+  {
+    "sainnhe/sonokai",
     lazy = false,
     config = function()
-      vim.g.sonokai_style = 'default'
+      vim.g.sonokai_style = "default"
       vim.g.sonokai_disable_italic_comment = 1
-      
+
       -- Set diagnostic virtual text to italic
       vim.api.nvim_create_autocmd("ColorScheme", {
         pattern = "sonokai",
