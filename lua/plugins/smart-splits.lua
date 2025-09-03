@@ -1,5 +1,27 @@
+--- ----------------------------------------------------------------------------------------
 --- Add the following to your tmux.conf to enable vim-tmux-navigator as a companion
 ---     set -g @plugin 'christoomey/vim-tmux-navigator' # Tmux Neovim navigation integration
+--- ----------------------------------------------------------------------------------------
+
+--- mini.move is installed via lazy extras, config for visual mode only, disable the normal mode
+require("mini.move").setup({
+  -- Disable normal mode mappings
+  mappings = {
+    line_left = "",
+    line_right = "",
+    line_down = "",
+    line_up = "",
+  },
+  -- You can still keep the visual mode mappings
+  -- Note: The visual mode mappings will still have their default values
+  -- if you don't explicitly set them here.
+  -- visual_left = '<A-h>',
+  -- visual_right = '<A-l>',
+  -- visual_down = '<A-j>',
+  -- visual_up = '<A-k>',
+})
+
+--- smart-splits is the active mappings when not in visual mode
 return {
   {
     "mrjones2014/smart-splits.nvim",
@@ -42,7 +64,7 @@ return {
         function()
           require("smart-splits").resize_left()
         end,
-        mode = { "n", "v", "t" },
+        mode = { "n", "t" },
         desc = "Resize split left (*)",
       },
       {
@@ -50,7 +72,7 @@ return {
         function()
           require("smart-splits").resize_down()
         end,
-        mode = { "n", "v", "t" },
+        mode = { "n", "t" },
         desc = "Resize split down (*)",
       },
       {
@@ -58,7 +80,7 @@ return {
         function()
           require("smart-splits").resize_up()
         end,
-        mode = { "n", "v", "t" },
+        mode = { "n", "t" },
         desc = "Resize split up (*)",
       },
       {
@@ -66,7 +88,7 @@ return {
         function()
           require("smart-splits").resize_right()
         end,
-        mode = { "n", "v", "t" },
+        mode = { "n", "t" },
         desc = "Resize split right (*)",
       },
       {
