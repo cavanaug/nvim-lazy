@@ -1,52 +1,65 @@
 -- Keymaps are automatically loaded on the VeryLazy event
 -- Add any additional keymaps here
-local map = vim.keymap.set
+local set = vim.keymap.set
+local del = vim.keymap.del
 
 -- -------------------------------------------------------------------------------------------------------
 -- GLOBAL MAPPINGS
 --     -- General maps only here
 --     -- Things that are domain specific should put in the specific plugin area (ie. terminal/toggleterm)
 -- -------------------------------------------------------------------------------------------------------
-
 -- vim.api.nvim_set_keymap('t', '<Esc><Esc>', '<C-\\><C-n>', { noremap = true, silent = true })
+
+-- Disable arrow keys, Ctrl+arrow, Shift+arrow keys
+set({ "n", "i", "v", "c" }, "<Up>", "<Nop>")
+set({ "n", "i", "v", "c" }, "<Down>", "<Nop>")
+set({ "n", "i", "v", "c" }, "<Left>", "<Nop>")
+set({ "n", "i", "v", "c" }, "<Right>", "<Nop>")
+set({ "n", "i", "v", "c" }, "<C-Up>", "<Nop>")
+set({ "n", "i", "v", "c" }, "<C-Down>", "<Nop>")
+set({ "n", "i", "v", "c" }, "<C-Left>", "<Nop>")
+set({ "n", "i", "v", "c" }, "<C-Right>", "<Nop>")
+set({ "n", "i", "v", "c" }, "<S-Up>", "<Nop>")
+set({ "n", "i", "v", "c" }, "<S-Down>", "<Nop>")
+set({ "n", "i", "v", "c" }, "<S-Left>", "<Nop>")
+set({ "n", "i", "v", "c" }, "<S-Right>", "<Nop>")
 
 -- -------------------------------------------------------------------------------------------------------
 -- VISUAL MODE MAPPING
 -- ----------------------------------------------------------------------------------------------------------
-map("v", "<localleader>p", '"+p', { noremap = true }) -- Paste from windows clipboard
-map("v", "<localleader>P", '"+P', { noremap = true }) -- Paste from windows clipboard
-map("v", "<localleader>y", '"+y', { noremap = true }) -- Yank to windows clipboard
-map("v", "<localleader>Y", '"+y$', { noremap = true }) -- Yank to windows clipboard
+set("v", "<localleader>p", '"+p', { noremap = true }) -- Paste from windows clipboard
+set("v", "<localleader>P", '"+P', { noremap = true }) -- Paste from windows clipboard
+set("v", "<localleader>y", '"+y', { noremap = true }) -- Yank to windows clipboard
+set("v", "<localleader>Y", '"+y$', { noremap = true }) -- Yank to windows clipboard
 
-map("v", "<localleader>)", "viwgsa)", { remap = true }) -- Muscle memory to trigger surround actions
-map("v", "<localleader>}", "viwgsa}", { remap = true }) -- Muscle memory to trigger surround actions
-map("v", "<localleader>]", "viwgsa]", { remap = true }) -- Muscle memory to trigger surround actions
-map("v", '<localleader>"', 'viwgsa"', { remap = true }) -- Muscle memory to trigger surround actions
-map("v", "<localleader>'", "viwgsa'", { remap = true }) -- Muscle memory to trigger surround actions
+set("v", "<localleader>)", "viwgsa)", { remap = true }) -- Muscle memory to trigger surround actions
+set("v", "<localleader>}", "viwgsa}", { remap = true }) -- Muscle memory to trigger surround actions
+set("v", "<localleader>]", "viwgsa]", { remap = true }) -- Muscle memory to trigger surround actions
+set("v", '<localleader>"', 'viwgsa"', { remap = true }) -- Muscle memory to trigger surround actions
+set("v", "<localleader>'", "viwgsa'", { remap = true }) -- Muscle memory to trigger surround actions
 
 -- map("v", "<leader>)", "gsa)", { remap = true }) -- Muscle memory to trigger surround actions
 -- map("v", "<leader>}", "gsa}", { remap = true }) -- Muscle memory to trigger surround actions
 -- map("v", "<leader>]", "gsa]", { remap = true }) -- Muscle memory to trigger surround actions
 -- map("v", '<leader>"', 'gsa"', { remap = true }) -- Muscle memory to trigger surround actions
--- map("v", "<leader>'", "gsa'", { remap = true }) -- Muscle memory to trigger surround actions
-
 -- -------------------------------------------------------------------------------------------------------
 -- NORMAL MODE MAPPING
 -- -------------------------------------------------------------------------------------------------------
 
 -- map("n", "H", "<cmd>bprev<cr>", { noremap = true }) -- Not needed in LazyVim
 -- map("n", "L", "<cmd>bnext<cr>", { noremap = true }) -- Not needed in LazyVim
+-- map("v", "<leader>'", "gsa'", { remap = true }) -- Muscle memory to trigger surround actions
 
-map("n", ",p", '"+p', { noremap = true }) -- Paste from windows clipboard
-map("n", ",P", '"+P', { noremap = true }) -- Paste from windows clipboard
-map("n", ",y", '"+y', { noremap = true }) -- Yank to windows clipboard
-map("n", ",Y", '"+y$', { noremap = true }) -- Yank to windows clipboard
+set("n", ",p", '"+p', { noremap = true }) -- Paste from windows clipboard
+set("n", ",P", '"+P', { noremap = true }) -- Paste from windows clipboard
+set("n", ",y", '"+y', { noremap = true }) -- Yank to windows clipboard
+set("n", ",Y", '"+y$', { noremap = true }) -- Yank to windows clipboard
 
-map("n", "<localleader>)", "viwgsa)", { remap = true }) -- Muscle memory to trigger surround actions
-map("n", "<localleader>}", "viwgsa}", { remap = true }) -- Muscle memory to trigger surround actions
-map("n", "<localleader>]", "viwgsa]", { remap = true }) -- Muscle memory to trigger surround actions
-map("n", '<localleader>"', 'viwgsa"', { remap = true }) -- Muscle memory to trigger surround actions
-map("n", "<localleader>'", "viwgsa'", { remap = true }) -- Muscle memory to trigger surround actions
+set("n", "<localleader>)", "viwgsa)", { remap = true }) -- Muscle memory to trigger surround actions
+set("n", "<localleader>}", "viwgsa}", { remap = true }) -- Muscle memory to trigger surround actions
+set("n", "<localleader>]", "viwgsa]", { remap = true }) -- Muscle memory to trigger surround actions
+set("n", '<localleader>"', 'viwgsa"', { remap = true }) -- Muscle memory to trigger surround actions
+set("n", "<localleader>'", "viwgsa'", { remap = true }) -- Muscle memory to trigger surround actions
 
 -- map("n", "<M-,>", "<cmd>ToggleTerm<cr>", { noremap = true }) -- Shortcut to toggle terminal (if using ToggleTerm)
 
@@ -60,7 +73,7 @@ map("n", "<localleader>'", "viwgsa'", { remap = true }) -- Muscle memory to trig
 --- Close current buffer
 ---    Previously "<leader>c" in astrovim
 ----------------------------------------
-map("n", "<C-C>", function()
+set("n", "<C-b>", function()
   local buffer_count = 0
   for _, bufinfo in ipairs(vim.fn.getbufinfo({ buflisted = 1 })) do
     buffer_count = buffer_count + 1
@@ -75,7 +88,7 @@ end, { desc = "Close pane (*)" })
 ----------------------------------------
 --- Toggle Window Split Orientation
 ----------------------------------------
-map("n", "<C-e>", function()
+set("n", "<C-e>", function()
   local win1 = vim.api.nvim_list_wins()[1]
   local win2 = vim.api.nvim_list_wins()[2]
   -- Ensure exactly two windows exist

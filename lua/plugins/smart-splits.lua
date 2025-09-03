@@ -4,25 +4,20 @@
 --- ----------------------------------------------------------------------------------------
 
 --- mini.move is installed via lazy extras, config for visual mode only, disable the normal mode
-require("mini.move").setup({
-  -- Disable normal mode mappings
-  mappings = {
-    line_left = "",
-    line_right = "",
-    line_down = "",
-    line_up = "",
-  },
-  -- You can still keep the visual mode mappings
-  -- Note: The visual mode mappings will still have their default values
-  -- if you don't explicitly set them here.
-  -- visual_left = '<A-h>',
-  -- visual_right = '<A-l>',
-  -- visual_down = '<A-j>',
-  -- visual_up = '<A-k>',
-})
-
 --- smart-splits is the active mappings when not in visual mode
 return {
+  {
+    "echasnovski/mini.move",
+    opts = {
+      -- Disable normal mode mappings to avoid conflict with smart-splits
+      mappings = {
+        line_left = "",
+        line_right = "",
+        line_down = "",
+        line_up = "",
+      },
+    },
+  },
   {
     "mrjones2014/smart-splits.nvim",
     lazy = false,
@@ -92,38 +87,46 @@ return {
         desc = "Resize split right (*)",
       },
       {
-        "<leader><leader>h",
+        "<leader>mh",
         function()
           require("smart-splits").swap_buf_left()
         end,
         desc = "Swap left (*)",
       },
       {
-        "<leader><leader>j",
+        "<leader>mj",
         function()
           require("smart-splits").swap_buf_down()
         end,
         desc = "Swap below (*)",
       },
       {
-        "<leader><leader>k",
+        "<leader>mk",
         function()
           require("smart-splits").swap_buf_up()
         end,
         desc = "Swap above (*)",
       },
       {
-        "<leader><leader>l",
+        "<leader>ml",
         function()
           require("smart-splits").swap_buf_right()
         end,
         desc = "Swap right (*)",
       },
+      { "<leader>mK", "<C-w>K", desc = "Move Top (*)" },
+      { "<leader>mJ", "<C-w>J", desc = "Move Bottom (*)" },
+      { "<leader>mH", "<C-w>H", desc = "Move FarLeft (*)" },
+      { "<leader>mL", "<C-w>L", desc = "Move FarRight (*)" },
+      { "<leader>md", "<C-w><C-r>", desc = "Rotate Down/Right (*)" },
+      { "<leader>mu", "<C-w>R", desc = "Rotate Up/Left (*)" },
     },
     opts = {
       ignored_filetypes = { "nofile", "quickfix", "qf", "prompt" },
       ignored_buftypes = { "nofile" },
-      zellij_move_focus_or_tab = true,
+      zellij_move_focus_or_tab = false,
+      move_cursor_same_row = true,
+      disable_multiplexer_nav_when_zoomed = true,
     },
   },
 }
