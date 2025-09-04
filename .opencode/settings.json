@@ -1,0 +1,6 @@
+{
+  "allowedPaths": [
+    "/home/cavanaug/.config/nvim",
+    "/home/cavanaug/.local/share/nvim"
+  ]
+}
