@@ -23,6 +23,9 @@ return {
           vim.api.nvim_set_hl(0, "DiagnosticVirtualTextWarn", { italic = true, bold = true, fg = "#a8485c" })
           vim.api.nvim_set_hl(0, "DiagnosticVirtualTextInfo", { italic = true, bold = true, fg = "#808080" })
           vim.api.nvim_set_hl(0, "DiagnosticVirtualTextHint", { italic = true, bold = true, fg = "#808080" })
+
+          -- Make hidden files more readable in snacks picker
+          vim.api.nvim_set_hl(0, "SnacksPickerPathHidden", { fg = "#7a7c7d" })
         end,
       })
     end,
