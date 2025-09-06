@@ -13,6 +13,43 @@ This is a comprehensive Neovim configuration built on top of **LazyVim**, featur
 - **Plugin Source**: `~/.local/share/nvim` - Location where all plugin source code is stored, this area is NEVER to be modified directly
 - **Lock File**: `lazy-lock.json` - Pins exact plugin versions for reproducible builds
 
+### Data & Cache Locations
+
+**Plugin Data Directories**:
+- **`~/.local/share/nvim/lazy/`** - Plugin source code repositories (managed by lazy.nvim)
+- **`~/.local/share/nvim/mason/`** - LSP servers, formatters, linters installed by Mason
+- **`~/.local/share/nvim/blink/`** - Blink.cmp completion data
+- **`~/.cache/nvim/`** - Plugin cache files, logs, and temporary data
+- **`~/.local/state/nvim/`** - Persistent state data (sessions, undo history)
+
+**For Documentation & Debugging**:
+- Use `ls ~/.local/share/nvim/lazy/` to see all installed plugins
+- Plugin source code at `~/.local/share/nvim/lazy/<plugin-name>/` contains:
+  - README.md files with documentation
+  - `doc/` directories with help files  
+  - `lua/` directories with source code for understanding plugin internals
+  - Example configurations in plugin repositories
+- Check `~/.cache/nvim/` for plugin logs (e.g., `diffview.log`, `telescope.log`)
+- Mason tools are in `~/.local/share/nvim/mason/bin/` and `~/.local/share/nvim/mason/packages/`
+- **Neovim Core Documentation**: Find version-specific help files at `/home/linuxbrew/.linuxbrew/Cellar/neovim/<version>/share/nvim/runtime/doc/`
+  - Use `ls /home/linuxbrew/.linuxbrew/Cellar/neovim/` to see available versions
+  - Contains core vim help files (api.txt, autocmd.txt, cmdline.txt, etc.)
+  - Use `find /home/linuxbrew/.linuxbrew/Cellar/neovim/ -name "*.txt" -path "*/doc/*"` to locate all help files
+  - Access via `:help <topic>` in Neovim or examine files directly for comprehensive documentation
+- Use `:checkhealth` in Neovim to see plugin status and potential issues
+
+**Advanced Debugging & Development**:
+- **Live Inspection**: Use `:lua print(vim.inspect(<object>))` to inspect Lua objects and configurations
+- **Plugin Loading**: Check `:Lazy profile` for plugin loading times and performance bottlenecks
+- **LSP Debugging**: Use `:LspInfo`, `:LspLog`, and `:Mason` for language server troubleshooting
+- **Startup Performance**: Use `:Lazy profile` and the `startuptime` extra for optimization
+- **Configuration Reload**: Use `:source %` for individual files or `:Lazy reload <plugin>` for plugins
+- **Error Tracking**: Check `:messages` for recent error messages and warnings
+- **Plugin State**: Use `:Lazy` interface to see plugin status, updates, and configuration
+- **Key Mappings**: Use `:map`, `:nmap`, `:imap` etc. to inspect current key bindings
+- **Options Inspection**: Use `:set <option>?` to check current option values
+- **Autocommands**: Use `:autocmd` to list active autocommands and their triggers
+
 ### Directory Structure
 
 ```
@@ -256,6 +293,25 @@ The configuration heavily leverages LazyVim extras (defined in `lazyvim.json`):
 4. **Testing**: Be aware of disabled features and migration status
 5. **Compatibility**: Check lazy-lock.json for exact plugin versions
 
+### Plugin Research & Documentation
+
+**Dynamic Plugin Discovery**:
+- Run `ls ~/.local/share/nvim/lazy/` to see currently installed plugins
+- Each plugin directory contains source code and documentation
+- Check `~/.local/share/nvim/lazy/<plugin>/README.md` for plugin documentation
+- Look in `~/.local/share/nvim/lazy/<plugin>/doc/` for vim help files
+- Examine `~/.local/share/nvim/lazy/<plugin>/lua/` for source code and examples
+
+**Debugging & Logs**:
+- Check `~/.cache/nvim/` for plugin-specific log files
+- Use `~/.cache/nvim/luac/` for compiled Lua bytecode cache
+- Mason logs and registry data in `~/.cache/nvim/mason-registry-update`
+- Theme cache files (e.g., `tokyonight-*.json`) in `~/.cache/nvim/`
+
+**State & Persistence**:
+- Use `~/.local/state/nvim/` for session data, undo history, and plugin state
+- Backup and undo files follow XDG specification based on `NVIM_APPNAME`
+
 ### Development Commands
 
 - `:Lazy` - Plugin management interface
@@ -263,6 +319,18 @@ The configuration heavily leverages LazyVim extras (defined in `lazyvim.json`):
 - `:Mason` - LSP/tool management
 - `:checkhealth` - Diagnostic information
 - `:Nerdy` - Icon/symbol picker
+
+**Additional Debugging Commands**:
+- `:lua =vim.version()` - Check Neovim version and build info
+- `:lua =vim.fn.stdpath('data')` - Get data directory path
+- `:lua =vim.fn.stdpath('config')` - Get config directory path
+- `:lua =vim.fn.stdpath('cache')` - Get cache directory path
+- `:echo $NVIM_APPNAME` - Check if using custom app name (affects paths)
+- `:Telescope keymaps` - Search and inspect all key mappings
+- `:Telescope commands` - Browse available commands
+- `:Telescope highlights` - Inspect current highlight groups
+- `:set runtimepath?` - Show where Neovim looks for files
+- `:scriptnames` - List all loaded script files in load order
 
 This configuration represents a sophisticated, performance-oriented Neovim setup optimized for development workflows with strong AI integration and cross-platform compatibility (especially Wayland/WSL environments).
 
