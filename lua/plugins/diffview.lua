@@ -1,6 +1,6 @@
 return {
   {
-    "sindrets/diffview.nvim",
+    "cavanaug/diffview.nvim",
     config = function()
       require("diffview").setup({
         view = {
@@ -45,7 +45,6 @@ return {
       vim.api.nvim_create_autocmd({ "BufEnter", "WinEnter" }, {
         callback = setup_diff_keymaps,
       })
-
     end,
   },
 }
