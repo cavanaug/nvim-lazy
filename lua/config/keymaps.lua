@@ -73,7 +73,7 @@ set("n", "<localleader>'", "viwgsa'", { remap = true }) -- Muscle memory to trig
 --- Close current buffer
 ---    Previously "<leader>c" in astrovim
 ----------------------------------------
-set("n", "<C-b>", function()
+set("n", "<leader>cb", function()
   local buffer_count = 0
   for _, bufinfo in ipairs(vim.fn.getbufinfo({ buflisted = 1 })) do
     buffer_count = buffer_count + 1
@@ -83,7 +83,7 @@ set("n", "<C-b>", function()
   else
     vim.cmd("bd")
   end
-end, { desc = "Close pane (*)" })
+end, { desc = "Close buffer pane (*)" })
 
 ----------------------------------------
 --- Toggle Window Split Orientation
@@ -107,7 +107,7 @@ set("n", "<C-e>", function()
   else
     vim.cmd("wincmd H") -- Move the second window to be side-by-side (vertical)
   end
-end, { desc = "Exchange window split orientation", noremap = true })
+end, { desc = "Exchange window split orientation (*)", noremap = true })
 
 if true then
   return {}
