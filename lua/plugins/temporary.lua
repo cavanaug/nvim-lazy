@@ -1,10 +1,6 @@
-if true then
-  return {}
-end
 return {
   {
     "saghen/blink.cmp",
-    enabled = false,
     optional = true,
     ---@module 'blink.cmp'
     ---@type blink.cmp.Config

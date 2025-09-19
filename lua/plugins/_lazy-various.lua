@@ -25,6 +25,10 @@ return {
     "fei6409/log-highlight.nvim",
     opts = {},
   },
+  {
+    "sphamba/smear-cursor.nvim",
+    opts = {},
+  },
   -- {
   --   -- Prettier indent markers
   --   "lukas-reineke/indent-blankline.nvim",
