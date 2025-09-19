@@ -47,7 +47,6 @@ vim.g.root_lsp_ignore = { "copilot" }
 
 -- Hide deprecation warnings
 vim.g.deprecation_warnings = false
-
 -- Show the current document symbols location from Trouble in lualine
 -- You can disable this for a buffer by setting `vim.b.trouble_lualine = false`
 vim.g.trouble_lualine = true
@@ -167,15 +166,13 @@ opt.wrap = true -- Enable line wrap
 
 opt.guifont = "FiraCode Nerd Font:h10"
 
-if vim.fn.has("nvim-0.10") == 1 then
-  opt.smoothscroll = true
-  opt.foldexpr = "v:lua.require'lazyvim.util'.ui.foldexpr()"
-  opt.foldmethod = "expr"
-  opt.foldtext = ""
-else
-  opt.foldmethod = "indent"
-  opt.foldtext = "v:lua.require'lazyvim.util'.ui.foldtext()"
-end
+-- JC: Something here isnt working post lazyvim 15.x update
+-- if vim.fn.has("nvim-0.10") == 1 then
+--   opt.smoothscroll = true
+--   opt.foldexpr = "v:lua.require'lazyvim.util'.ui.foldexpr()"
+--   opt.foldmethod = "expr"
+--   opt.foldtext = ""
+-- end
 
 -- Fix markdown indentation settings
 vim.g.markdown_recommended_style = 0

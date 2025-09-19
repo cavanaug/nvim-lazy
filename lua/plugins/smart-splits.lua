@@ -7,7 +7,7 @@
 --- smart-splits is the active mappings when not in visual mode
 return {
   {
-    "echasnovski/mini.move",
+    "nvim-mini/mini.move",
     opts = {
       -- Disable normal mode mappings to avoid conflict with smart-splits
       mappings = {
