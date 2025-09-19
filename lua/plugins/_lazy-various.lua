@@ -21,6 +21,10 @@ return {
     },
     cmd = "Nerdy",
   },
+  {
+    "fei6409/log-highlight.nvim",
+    opts = {},
+  },
   -- {
   --   -- Prettier indent markers
   --   "lukas-reineke/indent-blankline.nvim",
