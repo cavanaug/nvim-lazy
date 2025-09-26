@@ -1,6 +1,20 @@
 return {
   {
     "folke/snacks.nvim",
+    opts = function(_, opts)
+      return vim.tbl_deep_extend("force", opts or {}, {
+        picker = {
+          win = {
+            input = {
+              keys = {
+                -- Allow for selecting files with Ctrl-Space in any snacks picker
+                ["<C-Space>"] = { "select_and_next", mode = { "i", "n" } },
+              },
+            },
+          },
+        },
+      })
+    end,
     keys = {
       {
         "<leader>fs",
@@ -32,7 +46,14 @@ return {
             prompt = "> ",
           })
         end,
-        desc = "Find Files (Bash config)",
+        desc = "Find Files (BASH configs)",
+      },
+      {
+        "<leader>fx",
+        function()
+          require("snacks").picker.files({ cwd = vim.fn.expand("~/.config") })
+        end,
+        desc = "Find Files (XDG Config)",
       },
     },
   },
