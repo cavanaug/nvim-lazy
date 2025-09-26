@@ -46,14 +46,14 @@ return {
             prompt = "> ",
           })
         end,
-        desc = "Find Files (BASH configs)",
+        desc = "Find Files (Shell configs) (*)",
       },
       {
         "<leader>fx",
         function()
           require("snacks").picker.files({ cwd = vim.fn.expand("~/.config") })
         end,
-        desc = "Find Files (XDG Config)",
+        desc = "Find Files (XDG Config) (*)",
       },
     },
   },
