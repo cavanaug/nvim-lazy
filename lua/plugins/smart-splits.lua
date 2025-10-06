@@ -1,6 +1,13 @@
 --- ----------------------------------------------------------------------------------------
+--- TMUX
 --- Add the following to your tmux.conf to enable vim-tmux-navigator as a companion
 ---     set -g @plugin 'christoomey/vim-tmux-navigator' # Tmux Neovim navigation integration
+---
+--- Zellij
+--- Add to your config.kdl to enable zellij-navigator as a companion plugin
+--- load_plugins {
+---     "https://github.com/hiasr/vim-zellij-navigator/releases/download/0.3.0/vim-zellij-navigator.wasm"
+--- }
 --- ----------------------------------------------------------------------------------------
 
 --- mini.move is installed via lazy extras, config for visual mode only, disable the normal mode

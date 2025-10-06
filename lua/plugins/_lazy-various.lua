@@ -1,3 +1,6 @@
+--
+-- Collection of various plugins that don't fit anywhere else and dont deserve their own file
+--
 return {
   { "AndrewRadev/bufferize.vim" }, -- Most items in lazyvim already do this, but still nice to have
   {
@@ -5,10 +8,8 @@ return {
     config = function()
       require("better_escape").setup({
         mappings = {
-          -- i for insert, other modes are the first letter too
           i = {
-            -- map kj to exit insert mode
-            k = { j = "<Esc>" },
+            k = { j = "<Esc>" }, -- map kj to exit insert mode
           },
         },
       })
