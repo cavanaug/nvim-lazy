@@ -1,9 +1,22 @@
 return {
   { --- This exists to modify the folding marker to what I like
     "kevinhwang91/nvim-ufo",
-    enabled = true, -- WARNING: This plugin is not working with the current version of nvim
+    enabled = true, -- Re-enabled with dashboard exclusion
     dependencies = { "kevinhwang91/promise-async" },
     opts = function(plugin, opts)
+      -- Disable UFO for dashboard and other special buffers
+      opts.provider_selector = function(bufnr, filetype, buftype)
+        -- Disable for dashboard
+        if filetype == "snacks_dashboard" then
+          return ""
+        end
+        -- Disable for specific special buffer types that shouldn't have folding
+        if buftype == "terminal" or buftype == "prompt" or buftype == "nofile" then
+          return ""
+        end
+        -- Use default providers for normal files (including JSON)
+        return { "lsp", "indent" }
+      end
       opts.fold_virt_text_handler = function(virtText, lnum, endLnum, width, truncate)
         local newVirtText = {}
         local suffix = (" 󰁂 %d "):format(endLnum - lnum)
