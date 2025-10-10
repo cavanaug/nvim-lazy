@@ -47,6 +47,19 @@ vim.g.root_lsp_ignore = { "copilot" }
 
 -- Hide deprecation warnings
 vim.g.deprecation_warnings = false
+
+-- Exclude certain files from oldfiles and recent files
+vim.opt.wildignore:append({
+  "*.tmp",
+  "*.log",
+  "*.bak",
+  "*.swp",
+  "*.swo",
+  "*/.git/*",
+  "*/node_modules/*",
+  "*/.cache/*",
+  "COMMIT_EDITMSG",
+})
 -- Show the current document symbols location from Trouble in lualine
 -- You can disable this for a buffer by setting `vim.b.trouble_lualine = false`
 vim.g.trouble_lualine = true

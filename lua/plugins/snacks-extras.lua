@@ -33,6 +33,31 @@ return {
             { section = "startup" },
           },
         },
+        recent = {
+          -- Filter out certain file patterns from recent files
+          filter = function(file)
+            -- Exclude temporary files, logs, and other unwanted files
+            local exclude_patterns = {
+              "%.tmp$",
+              "%.log$",
+              "%.bak$",
+              "%.swp$",
+              "%.swo$",
+              "/tmp/",
+              "COMMIT_EDITMSG",
+              "%.git/",
+              "node_modules/",
+              "%.cache/",
+            }
+            
+            for _, pattern in ipairs(exclude_patterns) do
+              if file:match(pattern) then
+                return false
+              end
+            end
+            return true
+          end,
+        },
         picker = {
           win = {
             input = {
