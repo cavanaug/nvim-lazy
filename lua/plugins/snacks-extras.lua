@@ -3,6 +3,36 @@ return {
     "folke/snacks.nvim",
     opts = function(_, opts)
       return vim.tbl_deep_extend("force", opts or {}, {
+        dashboard = {
+          enabled = true,
+          preset = {
+            -- Custom header with your name/theme
+            header = [[
+┌────────────────────────────────────────────────────────────────────────────┐
+│                                                                            │
+│                                                                          │
+│          ████ ██████           █████      ██                       │
+│         ███████████             █████                               │
+│         █████████ ███████████████████ ███   ███████████     │
+│        █████████  ███    █████████████ █████ ██████████████     │
+│       █████████ ██████████ █████████ █████ █████ ████ █████     │
+│     ███████████ ███    ███ █████████ █████ █████ ████ █████    │
+│    ██████  █████████████████████ ████ █████ █████ ████ ██████   │
+│                                                                            │
+│                                                                            │
+│                                 LAZYVIM                                    │
+└────────────────────────────────────────────────────────────────────────────┘
+
+]],
+          },
+          sections = {
+            { section = "header" },
+            { section = "keys", gap = 1, padding = 1 },
+            { icon = " ", title = "Recent Files", section = "recent_files", indent = 2, padding = 1 },
+            { icon = " ", title = "Projects", section = "projects", indent = 2, padding = 1 },
+            { section = "startup" },
+          },
+        },
         picker = {
           win = {
             input = {
