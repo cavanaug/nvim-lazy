@@ -38,6 +38,21 @@ set("v", "<localleader>]", "viwgsa]", { remap = true }) -- Muscle memory to trig
 set("v", '<localleader>"', 'viwgsa"', { remap = true }) -- Muscle memory to trigger surround actions
 set("v", "<localleader>'", "viwgsa'", { remap = true }) -- Muscle memory to trigger surround actions
 
+-- Use mini.move with temporary shiftwidth=1 for single-character shifts
+set("v", "L", function()
+  local original_shiftwidth = vim.bo.shiftwidth
+  vim.bo.shiftwidth = 1
+  require('mini.move').move_selection('right')
+  vim.bo.shiftwidth = original_shiftwidth
+end, { noremap = true, silent = true, desc = "Shift selection right one character" })
+
+set("v", "H", function()
+  local original_shiftwidth = vim.bo.shiftwidth
+  vim.bo.shiftwidth = 1
+  require('mini.move').move_selection('left')
+  vim.bo.shiftwidth = original_shiftwidth
+end, { noremap = true, silent = true, desc = "Shift selection left one character" })
+
 -- map("v", "<leader>)", "gsa)", { remap = true }) -- Muscle memory to trigger surround actions
 -- map("v", "<leader>}", "gsa}", { remap = true }) -- Muscle memory to trigger surround actions
 -- map("v", "<leader>]", "gsa]", { remap = true }) -- Muscle memory to trigger surround actions
