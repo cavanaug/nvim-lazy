@@ -177,7 +177,8 @@ opt.wildmode = "longest:full,full" -- Command-line completion mode
 opt.winminwidth = 5 -- Minimum window width
 opt.wrap = true -- Enable line wrap
 
-opt.guifont = "FiraCode Nerd Font:h10"
+-- opt.guifont = "FiraCode Nerd Font:h10"
+opt.guifont = "MesloLGS Nerd Font:h10"
 
 -- JC: Something here isnt working post lazyvim 15.x update
 -- if vim.fn.has("nvim-0.10") == 1 then
