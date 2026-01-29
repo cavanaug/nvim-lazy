@@ -9,3 +9,14 @@ data
 spell/en.utf-8.add.spl
 lazy-lock.json
 .aider*
+
+# Temporary scratch files (disposable)
+tmp/
+*.test.lua
+test-*.lua
+
+# Test logs
+/tmp/*.log
+
+# Keep regression tests
+!tests/

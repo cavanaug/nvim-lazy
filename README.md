@@ -1,10 +1,6 @@
-# Cavanaugh AstroNvim
-
-**NOTE:** This is for AstroNvim v4+
+# Cavanaugh LazyVim Configuration
 
 ## Backlog
-
-### Lazyvim Migration
 
 ### Next Items
 

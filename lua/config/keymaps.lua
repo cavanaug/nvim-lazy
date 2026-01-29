@@ -27,48 +27,45 @@ set({ "n", "i", "v", "c" }, "<S-Right>", "<Nop>")
 -- -------------------------------------------------------------------------------------------------------
 -- VISUAL MODE MAPPING
 -- ----------------------------------------------------------------------------------------------------------
-set("v", "<localleader>p", '"+p', { noremap = true }) -- Paste from windows clipboard
-set("v", "<localleader>P", '"+P', { noremap = true }) -- Paste from windows clipboard
-set("v", "<localleader>y", '"+y', { noremap = true }) -- Yank to windows clipboard
-set("v", "<localleader>Y", '"+y$', { noremap = true }) -- Yank to windows clipboard
+set("v", "<localleader>p", '"+p', { noremap = true, desc = "Paste from system clipboard (*)" }) -- Paste from windows clipboard
+set("v", "<localleader>P", '"+P', { noremap = true, desc = "Paste from system clipboard (*)" }) -- Paste from windows clipboard
+set("v", "<localleader>y", '"+y', { noremap = true, desc = "Yank to system clipboard (*)" }) -- Yank to windows clipboard
+set("v", "<localleader>Y", '"+y$', { noremap = true, desc = "Yank to system clipboard (*)" }) -- Yank to windows clipboard
 
 set("v", "<localleader>)", "viwgsa)", { remap = true }) -- Muscle memory to trigger surround actions
 set("v", "<localleader>}", "viwgsa}", { remap = true }) -- Muscle memory to trigger surround actions
 set("v", "<localleader>]", "viwgsa]", { remap = true }) -- Muscle memory to trigger surround actions
 set("v", '<localleader>"', 'viwgsa"', { remap = true }) -- Muscle memory to trigger surround actions
 set("v", "<localleader>'", "viwgsa'", { remap = true }) -- Muscle memory to trigger surround actions
+-- map("v", "<leader>)", "gsa)", { remap = true }) -- Muscle memory to trigger surround actions
+-- map("v", "<leader>}", "gsa}", { remap = true }) -- Muscle memory to trigger surround actions
+-- map("v", "<leader>]", "gsa]", { remap = true }) -- Muscle memory to trigger surround actions
+-- map("v", '<leader>"', 'gsa"', { remap = true }) -- Muscle memory to trigger surround actions
+-- map("v", "<leader>'", "gsa'", { remap = true }) -- Muscle memory to trigger surround actions
 
 -- Use mini.move with temporary shiftwidth=1 for single-character shifts
 set("v", "L", function()
   local original_shiftwidth = vim.bo.shiftwidth
   vim.bo.shiftwidth = 1
-  require('mini.move').move_selection('right')
+  require("mini.move").move_selection("right")
   vim.bo.shiftwidth = original_shiftwidth
 end, { noremap = true, silent = true, desc = "Shift selection right one character" })
 
 set("v", "H", function()
   local original_shiftwidth = vim.bo.shiftwidth
   vim.bo.shiftwidth = 1
-  require('mini.move').move_selection('left')
+  require("mini.move").move_selection("left")
   vim.bo.shiftwidth = original_shiftwidth
 end, { noremap = true, silent = true, desc = "Shift selection left one character" })
 
--- map("v", "<leader>)", "gsa)", { remap = true }) -- Muscle memory to trigger surround actions
--- map("v", "<leader>}", "gsa}", { remap = true }) -- Muscle memory to trigger surround actions
--- map("v", "<leader>]", "gsa]", { remap = true }) -- Muscle memory to trigger surround actions
--- map("v", '<leader>"', 'gsa"', { remap = true }) -- Muscle memory to trigger surround actions
 -- -------------------------------------------------------------------------------------------------------
 -- NORMAL MODE MAPPING
 -- -------------------------------------------------------------------------------------------------------
 
--- map("n", "H", "<cmd>bprev<cr>", { noremap = true }) -- Not needed in LazyVim
--- map("n", "L", "<cmd>bnext<cr>", { noremap = true }) -- Not needed in LazyVim
--- map("v", "<leader>'", "gsa'", { remap = true }) -- Muscle memory to trigger surround actions
-
-set("n", ",p", '"+p', { noremap = true }) -- Paste from windows clipboard
-set("n", ",P", '"+P', { noremap = true }) -- Paste from windows clipboard
-set("n", ",y", '"+y', { noremap = true }) -- Yank to windows clipboard
-set("n", ",Y", '"+y$', { noremap = true }) -- Yank to windows clipboard
+set("n", ",p", '"+p', { noremap = true, desc = "Paste from system clipboard (*)" }) -- Paste from windows clipboard
+set("n", ",P", '"+P', { noremap = true, desc = "Paste from system clipboard (*)" }) -- Paste from windows clipboard
+set("n", ",y", '"+y', { noremap = true, desc = "Yank to system clipboard (*)" }) -- Yank to windows clipboard
+set("n", ",Y", '"+y$', { noremap = true, desc = "Yank to system clipboard (*)" }) -- Yank to windows clipboard
 
 set("n", "<localleader>)", "viwgsa)", { remap = true }) -- Muscle memory to trigger surround actions
 set("n", "<localleader>}", "viwgsa}", { remap = true }) -- Muscle memory to trigger surround actions
