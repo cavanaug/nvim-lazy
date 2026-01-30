@@ -14,12 +14,27 @@ vim.api.nvim_create_autocmd("FileType", {
 })
 local HOME = os.getenv("HOME")
 return {
-  "mfussenegger/nvim-lint",
-  optional = true,
-  opts = {
-    linters = {
-      ["markdownlint-cli2"] = {
-        args = { "--config", HOME .. "/.markdownlint-cli2.yaml", "--" },
+  -- Override conform.nvim to remove prettier from markdown formatting
+  {
+    "stevearc/conform.nvim",
+    optional = true,
+    opts = {
+      formatters_by_ft = {
+        -- Remove prettier, keep only markdownlint-cli2 and markdown-toc
+        ["markdown"] = { "markdownlint-cli2", "markdown-toc" },
+        ["markdown.mdx"] = { "markdownlint-cli2", "markdown-toc" },
+      },
+    },
+  },
+  -- Configure nvim-lint with custom markdownlint config
+  {
+    "mfussenegger/nvim-lint",
+    optional = true,
+    opts = {
+      linters = {
+        ["markdownlint-cli2"] = {
+          args = { "--config", HOME .. "/.markdownlint-cli2.yaml", "--" },
+        },
       },
     },
   },

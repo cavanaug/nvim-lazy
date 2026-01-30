@@ -30,14 +30,15 @@ return {
     opts = function(_, opts)
       -- Get TypeScript SDK path
       local home = vim.env.HOME or vim.fn.expand("~")
-      local tsdk = home .. "/.local/share/nvim/mason/packages/vtsls/node_modules/@vtsls/language-server/node_modules/typescript/lib"
-      
+      local tsdk = home
+        .. "/.local/share/nvim/mason/packages/vtsls/node_modules/@vtsls/language-server/node_modules/typescript/lib"
+
       -- Ensure servers table exists
       opts.servers = opts.servers or {}
-      
+
       -- Get existing mdx_analyzer config or create new
       local mdx_config = opts.servers.mdx_analyzer or {}
-      
+
       -- Merge our configuration
       opts.servers.mdx_analyzer = vim.tbl_deep_extend("force", mdx_config, {
         mason = true, -- Install via Mason
@@ -49,7 +50,7 @@ return {
           },
         },
       })
-      
+
       return opts
     end,
   },
@@ -60,26 +61,27 @@ return {
     opts = function(_, opts)
       opts.servers = opts.servers or {}
       opts.servers.vtsls = opts.servers.vtsls or {}
-      
+
       -- Extend vtsls filetypes to include MDX
-      local vtsls_filetypes = opts.servers.vtsls.filetypes or {
-        "javascript",
-        "javascriptreact",
-        "javascript.jsx",
-        "typescript",
-        "typescriptreact",
-        "typescript.tsx",
-      }
-      
+      local vtsls_filetypes = opts.servers.vtsls.filetypes
+        or {
+          "javascript",
+          "javascriptreact",
+          "javascript.jsx",
+          "typescript",
+          "typescriptreact",
+          "typescript.tsx",
+        }
+
       -- Add MDX filetypes if not already present
       for _, ft in ipairs({ "mdx", "markdown.mdx" }) do
         if not vim.tbl_contains(vtsls_filetypes, ft) then
           table.insert(vtsls_filetypes, ft)
         end
       end
-      
+
       opts.servers.vtsls.filetypes = vtsls_filetypes
-      
+
       return opts
     end,
   },
@@ -94,14 +96,14 @@ return {
     },
   },
 
-  -- Formatting: Already configured in markdown extra for "markdown.mdx"
-  -- This explicitly adds "mdx" as well
+  -- Formatting: Remove prettier, keep only markdownlint-cli2 and markdown-toc
+  -- "markdown.mdx" is already handled by the markdown.lua config
   {
     "stevearc/conform.nvim",
     optional = true,
     opts = {
       formatters_by_ft = {
-        mdx = { "prettier", "markdownlint-cli2", "markdown-toc" },
+        mdx = { "markdownlint-cli2", "markdown-toc" },
         -- "markdown.mdx" is already handled by the markdown extra
       },
     },
