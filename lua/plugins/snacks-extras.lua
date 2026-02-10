@@ -1,3 +1,24 @@
+-- Helper function to filter out unwanted files from recent files lists
+local function recent_files_filter(file)
+  local exclude_patterns = {
+    "^/tmp/", -- /tmp directory
+    "COMMIT_EDITMSG$", -- git/hg commit messages
+    "%.tmp$",
+    "%.log$",
+    "%.bak$",
+    "%.swp$",
+    "%.swo$",
+    "%.git/",
+    "%.cache/",
+  }
+  for _, pattern in ipairs(exclude_patterns) do
+    if file:match(pattern) then
+      return false
+    end
+  end
+  return true
+end
+
 return {
   {
     "folke/snacks.nvim",
@@ -27,35 +48,29 @@ return {
           sections = {
             { section = "header" },
             { section = "keys", gap = 1, padding = 1 },
-            { icon = " ", title = "Recent Files", section = "recent_files", indent = 2, padding = 1 },
+            {
+              icon = " ",
+              title = "Recent Files",
+              section = "recent_files",
+              indent = 2,
+              padding = 1,
+              filter = recent_files_filter,
+            },
             { icon = " ", title = "Projects", section = "projects", indent = 2, padding = 1 },
             { section = "startup" },
           },
         },
-        recent = {
-          -- Filter out certain file patterns from recent files
-          filter = function(file)
-            -- Exclude temporary files, logs, and other unwanted files
-            local exclude_patterns = {
-              "%.tmp$",
-              "%.log$",
-              "%.bak$",
-              "%.swp$",
-              "%.swo$",
-              "COMMIT_EDITMSG",
-              "%.git/",
-              "%.cache/",
-            }
-
-            for _, pattern in ipairs(exclude_patterns) do
-              if file:match(pattern) then
-                return false
-              end
-            end
-            return true
-          end,
-        },
         picker = {
+          sources = {
+            -- Apply filter to picker's recent files source
+            recent = {
+              filter = {
+                filter = function(item)
+                  return recent_files_filter(item.file)
+                end,
+              },
+            },
+          },
           win = {
             input = {
               keys = {
