@@ -2,8 +2,8 @@
   "$schema": "https://opencode.ai/config.json",
   "permission": {
     "external_directory": {
-      "~/.local/share/nvim/**": "allow",
       "~/.cache/nvim/**": "allow",
+      "~/.local/share/nvim/**": "allow",
       "~/.local/state/nvim/**": "allow",
       "/home/linuxbrew/.linuxbrew/Cellar/neovim/**": "allow",
       "/tmp/**": "allow"
@@ -15,6 +15,5 @@
       "/home/linuxbrew/.linuxbrew/Cellar/neovim/**": "deny"
     }
   },
-  "mcp": {
-  }
+  "mcp": {}
 }
