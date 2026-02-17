@@ -15,5 +15,11 @@
       "/home/linuxbrew/.linuxbrew/Cellar/neovim/**": "deny"
     }
   },
-  "mcp": {}
+  "mcp": {
+    "nvim": {
+      "type": "local",
+      "command": ["nvim-mcp", "--connect", "auto"],
+      "enabled": true
+    }
+  }
 }

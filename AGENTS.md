@@ -331,6 +331,12 @@ This configuration **strongly prefers using LazyVim-supplied plugins and extras*
 - Copilot Chat (`lazyvim.plugins.extras.ai.copilot-chat`)
 - Sidekick (`lazyvim.plugins.extras.ai.sidekick`)
 
+**MCP Integration**:
+- nvim-mcp (`linw1995/nvim-mcp`) - MCP server for live Neovim interaction
+  - Configured in `opencode.json` as the `nvim` MCP server
+  - Plugin in `lua/plugins/agents.lua` creates the RPC socket automatically
+  - See [nvim-mcp Live Testing & Debugging](#nvim-mcp-live-testing--debugging) for detailed usage
+
 ### Testing Configuration Changes
 
 **CRITICAL: Always test changes headlessly before considering them complete.** AI agents must validate changes programmatically, not through user interaction.
@@ -658,6 +664,283 @@ nvim --headless +'checkhealth lsp' +'quit' 2>&1
    ls -lt ~/.config/nvim/lua/plugins/ | head -5
    ls -lt ~/.config/nvim/lua/config/ | head -5
    ```
+
+### nvim-mcp Live Testing & Debugging
+
+**Overview**: The [nvim-mcp](https://github.com/linw1995/nvim-mcp) MCP server provides a bridge between AI agents (via OpenCode) and a **live, running Neovim instance**. It exposes 33 tools for interacting with Neovim through the Model Context Protocol, including arbitrary Lua execution, LSP queries, buffer inspection, and diagnostics retrieval.
+
+**Why use nvim-mcp instead of (or in addition to) headless testing**:
+- Headless mode (`nvim --headless`) is good for basic validation (config loads, no errors), but some plugins behave differently without a UI, LSP servers may not fully attach, and you cannot inspect real editor state.
+- nvim-mcp connects to a **fully loaded Neovim instance** with all plugins loaded, LSP servers attached, and real buffers available. It provides ground-truth visibility into the live environment.
+- Use headless tests for **fast, automated validation** (config loads, health checks, regression suite). Use nvim-mcp for **live verification** (plugin behavior, LSP state, runtime option values, diagnostic accuracy).
+
+#### Architecture
+
+```
+OpenCode (AI agent)
+    │
+    ├── opencode.json defines "nvim" MCP server
+    │     command: ["nvim-mcp", "--connect", "auto"]
+    │
+    ▼
+nvim-mcp binary (stdio MCP server)
+    │
+    ├── Auto-discovers Neovim sockets at /tmp/nvim-mcp.<project>.<pid>.sock
+    │
+    ▼
+Neovim instance (running in detached tmux session)
+    │
+    └── Plugin (lua/plugins/agents.lua) calls vim.fn.serverstart()
+        creating the RPC socket on startup
+```
+
+**Configuration files involved**:
+- `lua/plugins/agents.lua` - Neovim plugin spec for `linw1995/nvim-mcp` (creates the socket)
+- `opencode.json` - Registers the `nvim` MCP server for OpenCode
+
+#### Launching a Dedicated Neovim Instance
+
+The agent should **always launch its own dedicated Neovim instance** inside a detached tmux session. This ensures a consistent, isolated environment for testing regardless of what the user has open.
+
+**Session name**: `nvim-mcp-agent`
+
+**Launch procedure**:
+```bash
+# Step 1: Kill any existing agent session (ensures fresh state)
+tmux kill-session -t nvim-mcp-agent 2>/dev/null
+
+# Step 2: Start a new detached tmux session with headless Neovim
+tmux new-session -d -s nvim-mcp-agent -c ~/.config/nvim 'nvim --headless'
+
+# Step 3: Wait for the nvim-mcp socket to appear (up to 5 seconds)
+for i in $(seq 1 10); do
+  ls /tmp/nvim-mcp.* >/dev/null 2>&1 && break
+  sleep 0.5
+done
+
+# Step 4: Verify socket exists
+ls /tmp/nvim-mcp.* 2>/dev/null || echo "ERROR: Socket not created"
+```
+
+**Key points**:
+- `nvim --headless` loads the full config (all 75+ plugins) but uses no UI resources
+- The nvim-mcp plugin automatically creates the RPC socket on startup
+- The socket appears within ~1 second of launch
+- The tmux session persists across OpenCode restarts
+- The user can inspect the instance: `tmux attach -t nvim-mcp-agent`
+
+**Teardown** (when done with testing):
+```bash
+tmux kill-session -t nvim-mcp-agent 2>/dev/null
+```
+The socket at `/tmp/nvim-mcp.*.sock` is cleaned up automatically when Neovim exits.
+
+**Restarting after config changes**:
+If the agent edits config files and needs to test with the updated config, it must kill and relaunch the tmux session:
+```bash
+tmux kill-session -t nvim-mcp-agent 2>/dev/null
+sleep 1
+tmux new-session -d -s nvim-mcp-agent -c ~/.config/nvim 'nvim --headless'
+sleep 2  # Wait for plugins to load
+```
+
+#### Connection Workflow
+
+When using `--connect auto` (the default in this config), connection is automatic:
+
+1. The nvim-mcp plugin creates a socket at `/tmp/nvim-mcp.<escaped-project-path>.<pid>.sock` when Neovim starts
+2. OpenCode launches `nvim-mcp --connect auto` as an MCP server
+3. nvim-mcp discovers sockets matching the current project directory
+4. A `connection_id` is assigned automatically
+
+**Verifying connectivity**:
+```bash
+# Check if the nvim-mcp socket exists
+ls /tmp/nvim-mcp.* 2>/dev/null
+
+# Test auto-discovery (will fail with connection error if no MCP client, but shows discovery)
+timeout 3 nvim-mcp --connect auto --log-level debug 2>&1 | head -10
+
+# Direct RPC test (verify Neovim is responsive)
+SOCKET=$(ls /tmp/nvim-mcp.* 2>/dev/null | head -1)
+nvim --headless --server "$SOCKET" --remote-expr 'luaeval("#require(\"lazy\").plugins()")' 2>&1
+```
+
+All tools below require a `connection_id` parameter. With `--connect auto`, the server provides this automatically.
+
+#### Key Tools for Configuration Testing
+
+**`exec_lua`** -- The most important tool. Executes arbitrary Lua code in the running Neovim instance and returns the result. This gives full access to the Neovim API.
+
+Use `exec_lua` for:
+
+- **Verify options are set correctly**:
+  ```lua
+  -- Check leader key
+  return vim.g.mapleader
+
+  -- Check multiple options at once
+  return vim.inspect({
+    tabstop = vim.o.tabstop,
+    shiftwidth = vim.o.shiftwidth,
+    expandtab = vim.o.expandtab,
+    colorscheme = vim.g.colors_name,
+    picker = vim.g.lazyvim_picker,
+    cmp = vim.g.lazyvim_cmp,
+  })
+  ```
+
+- **Verify a plugin is loaded and configured**:
+  ```lua
+  -- Check if a specific plugin is loaded
+  local plugins = require("lazy").plugins()
+  local result = {}
+  for _, p in ipairs(plugins) do
+    if p.name == "nvim-mcp" then
+      result = { name = p.name, loaded = p._.loaded ~= nil, dir = p.dir }
+    end
+  end
+  return vim.inspect(result)
+  ```
+
+- **Inspect keymaps**:
+  ```lua
+  -- Find all keymaps with a specific prefix
+  local maps = vim.api.nvim_get_keymap("n")
+  local leader_maps = {}
+  for _, m in ipairs(maps) do
+    if m.lhs:match("^<Space>a") then
+      table.insert(leader_maps, { lhs = m.lhs, desc = m.desc or "" })
+    end
+  end
+  return vim.inspect(leader_maps)
+  ```
+
+- **Check autocommands**:
+  ```lua
+  -- List autocommands for a specific group or event
+  return vim.inspect(vim.api.nvim_get_autocmds({ event = "FileType" }))
+  ```
+
+- **Read `:messages` output**:
+  ```lua
+  return vim.api.nvim_exec2("messages", { output = true }).output
+  ```
+
+- **Run health checks**:
+  ```lua
+  vim.cmd("checkhealth lazy")
+  -- Note: output goes to a buffer, not return value
+  ```
+
+- **Read buffer contents** (reliable alternative to `read` tool):
+  ```lua
+  -- Read by buffer id (use list_buffers to find ids)
+  local lines = vim.api.nvim_buf_get_lines(2, 0, -1, false)
+  return table.concat(lines, "\n")
+
+  -- Read by file path (finds the buffer for a loaded file)
+  local bufnr = vim.fn.bufnr("lua/plugins/agents.lua")
+  if bufnr ~= -1 then
+    local lines = vim.api.nvim_buf_get_lines(bufnr, 0, -1, false)
+    return table.concat(lines, "\n")
+  end
+  return "Buffer not loaded"
+  ```
+
+**`lsp_clients`** -- List all active LSP clients and their configurations. Use to verify LSP servers are attached to the correct filetypes.
+
+**`wait_for_lsp_ready`** -- Wait for a specific LSP client to be ready before running LSP-dependent checks. Use this before `buffer_diagnostics` or other LSP tools to avoid race conditions.
+
+**`list_buffers`** -- List all open buffers with names and line counts. Useful for understanding what files are loaded in the editor.
+
+**`buffer_diagnostics`** -- Get LSP diagnostics (errors, warnings) for a specific buffer. Use after making config changes to verify no new errors appeared.
+
+**`read`** -- Read buffer contents. Supports three document identification methods:
+- `{"buffer_id": 1}` - By buffer number
+- `{"project_relative_path": "lua/plugins/agents.lua"}` - By relative path
+- `{"absolute_path": "/home/cavanaug/.config/nvim/lua/plugins/agents.lua"}` - By absolute path
+
+> **Note**: The `read` tool may not work reliably in all MCP client environments due to parameter
+> serialization issues. If `read` fails, use `exec_lua` with `vim.api.nvim_buf_get_lines()` as a
+> reliable fallback (see the "Read buffer contents" example under `exec_lua` above). Use
+> `list_buffers` first to discover buffer ids.
+
+#### Key Tools for Debugging
+
+**`lsp_hover`** -- Get type information and documentation at a specific position. Useful for understanding what the LSP knows about a symbol.
+
+**`lsp_code_actions`** -- Get available code actions for a range. Shows what fixes the LSP suggests.
+
+**`lsp_definition`** / **`lsp_references`** -- Navigate symbol relationships through the live LSP. Useful for understanding code structure.
+
+**`lsp_document_symbols`** -- Get all symbols in a document (functions, variables, types). Useful for verifying treesitter/LSP parsing works correctly.
+
+**`lsp_workspace_symbols`** -- Search symbols across the entire workspace.
+
+**`navigate`** -- Move the cursor to a specific file and position. Can be used to coordinate with the user or to set up context for subsequent LSP queries.
+
+#### MCP Resources
+
+Resources provide structured data without requiring tool calls:
+
+- **`nvim-connections://`** -- List all active Neovim connections
+- **`nvim-diagnostics://{connection_id}/workspace`** -- All diagnostics across the workspace
+- **`nvim-diagnostics://{connection_id}/buffer/{buffer_id}`** -- Diagnostics for a specific buffer
+
+#### When to Use nvim-mcp vs Headless Testing
+
+| Scenario | Use Headless | Use nvim-mcp |
+|---|---|---|
+| Config loads without errors | Yes | No |
+| Health check passes | Yes | No |
+| Regression test suite | Yes | No |
+| Verify option values in live editor | No | Yes (`exec_lua`) |
+| Check LSP is attached and working | Partially | Yes (`lsp_clients`, `wait_for_lsp_ready`) |
+| Inspect real-time diagnostics | No | Yes (`buffer_diagnostics`, resources) |
+| Verify plugin behavior after config change | Limited | Yes (`exec_lua`) |
+| Debug why a keymap isn't working | Limited | Yes (`exec_lua` with `nvim_get_keymap`) |
+| Check what the user sees in their editor | No | Yes (`list_buffers`, `read`, `cursor_position`) |
+| Validate autocommands fired correctly | Limited | Yes (`exec_lua` with `nvim_get_autocmds`) |
+
+#### Practical Workflow for Agents
+
+**After making a config change, the recommended validation sequence is**:
+
+1. **Headless tests first** (fast, no dependencies):
+   ```bash
+   nvim --headless -c 'quit' 2>&1 && echo "Config OK"
+   bash ~/.config/nvim/tests/run-all.sh
+   ```
+
+2. **Launch dedicated Neovim for live testing**:
+   ```bash
+   # Always start a fresh instance with latest config
+   tmux kill-session -t nvim-mcp-agent 2>/dev/null
+   tmux new-session -d -s nvim-mcp-agent -c ~/.config/nvim 'nvim --headless'
+   # Wait for socket
+   for i in $(seq 1 10); do
+     ls /tmp/nvim-mcp.* >/dev/null 2>&1 && break
+     sleep 0.5
+   done
+   ```
+
+3. **Live verification via nvim-mcp**:
+   - Use `exec_lua` to verify the change took effect in the running instance
+   - Use `lsp_clients` to confirm LSP servers are attached
+   - Use `buffer_diagnostics` or `nvim-diagnostics://` to check for new errors
+   - Report findings to the user
+
+4. **Teardown when done**:
+   ```bash
+   tmux kill-session -t nvim-mcp-agent 2>/dev/null
+   ```
+
+**Important considerations**:
+- nvim-mcp adds 33 tools to the MCP context, which increases token usage. Use it deliberately rather than on every interaction.
+- After editing config files, kill and relaunch the tmux session to pick up changes.
+- The agent-launched instance runs `nvim --headless` with the full config (all plugins loaded) but no UI overhead.
+- The user can inspect the agent's Neovim at any time: `tmux attach -t nvim-mcp-agent`
 
 ### For Claude AI Assistants
 

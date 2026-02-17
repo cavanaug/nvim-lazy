@@ -51,4 +51,9 @@ return {
       end, { desc = "Explain this code" })
     end,
   },
+  {
+    "linw1995/nvim-mcp",
+    build = "cargo install --path .",
+    opts = {},
+  },
 }
