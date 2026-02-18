@@ -1,5 +1,6 @@
 return {
   {
+    --- My custom diffview configuration
     "cavanaug/diffview.nvim",
     config = function()
       require("diffview").setup({
@@ -46,5 +47,15 @@ return {
         callback = setup_diff_keymaps,
       })
     end,
+  },
+  {
+    -- Under evaluation diff viewer that integrates with Difi for a more interactive experience
+    -- brew install difi
+    "oug-t/difi.nvim",
+    event = "VeryLazy",
+    keys = {
+      -- Context-aware: Syncs with CLI target (e.g. main) or defaults to HEAD
+      { "<leader>df", ":Difi<CR>", desc = "Toggle Difi" },
+    },
   },
 }
