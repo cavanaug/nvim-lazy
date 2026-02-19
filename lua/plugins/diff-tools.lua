@@ -87,6 +87,7 @@ return {
     -- CLI workflow (recommended): Run `difi` in terminal, navigate to a file,
     -- press `e` to open in Neovim with the diff overlay already active.
     "oug-t/difi.nvim",
+    enabled = false,
     event = "VeryLazy",
     build = "command -v difi >/dev/null 2>&1 || brew install difi",
     keys = {
