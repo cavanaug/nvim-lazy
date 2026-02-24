@@ -11,7 +11,7 @@
     "edit": {
       "~/.local/share/nvim/**": "deny",
       "~/.cache/nvim/**": "deny",
-      "~/.local/state/nvim/**": "deny",
+      "~/.local/state/nvim/**": "ask",
       "/home/linuxbrew/.linuxbrew/Cellar/neovim/**": "deny"
     }
   },

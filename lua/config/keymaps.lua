@@ -67,8 +67,39 @@ set("n", "<localleader>}", "viwgsa}", { remap = true, desc = "Wrap word in } (*)
 set("n", "<localleader>]", "viwgsa]", { remap = true, desc = "Wrap word in ] (*)" })
 set("n", '<localleader>"', 'viwgsa"', { remap = true, desc = 'Wrap word in " (*)' })
 set("n", "<localleader>'", "viwgsa'", { remap = true, desc = "Wrap word in ' (*)" })
+
+-- Open terminal in a horizontal split below, with cwd set to the current file's directory
+set("n", "<localleader>t", function()
+  local dir = vim.fn.expand("%:p:h")
+  if dir == "" then
+    dir = vim.uv.cwd() -- fallback for unnamed/new buffers
+  end
+  -- Create a new buffer, open it in a split below, then launch the terminal with the target cwd
+  local buf = vim.api.nvim_create_buf(false, true)
+  vim.api.nvim_open_win(buf, true, { split = "below", height = math.floor(vim.o.lines * 0.33) })
+  vim.fn.termopen(vim.o.shell, { cwd = dir })
+  -- Auto-close the window when the terminal process exits cleanly
+  vim.api.nvim_create_autocmd("TermClose", {
+    buffer = buf,
+    once = true,
+    callback = function()
+      if vim.api.nvim_buf_is_valid(buf) then
+        vim.api.nvim_buf_delete(buf, { force = true })
+      end
+    end,
+  })
+  vim.cmd.startinsert()
+end, { desc = "Terminal <file dir> (*)" })
 --
 -- map("n", "<M-,>", "<cmd>ToggleTerm<cr>", { noremap = true }) -- Shortcut to toggle terminal (if using ToggleTerm)
+
+-- -------------------------------------------------------------------------------------------------------
+-- TERMINAL MAPPINGS
+-- -------------------------------------------------------------------------------------------------------
+
+-- Exit terminal mode
+set("t", "<C-Space>", "<C-\\><C-N>", { noremap = true, silent = true, desc = "Exit terminal mode (*)" })
+set("t", "<Esc><Esc>", "<C-\\><C-N>", { noremap = true, silent = true, desc = "Exit terminal mode (*)" })
 
 -- map("n", "<C-Space>", "za", { desc = "Toggle fold under cursor (*)" })
 
