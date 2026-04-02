@@ -61,24 +61,55 @@ return {
 
       local hl_group = vim.api.nvim_create_augroup("hgsigns_lazyvim_highlights", { clear = true })
 
-      local function preferred_link(primary, fallback)
-        return vim.fn.hlexists(primary) == 1 and primary or fallback
-      end
-
+      -- Mirror every Hgsigns* highlight group to its GitSigns* counterpart so
+      -- that Mercurial signs always use the same palette as Git signs, regardless
+      -- of theme.  The suffix after "Hgsigns" / "GitSigns" is identical for all
+      -- groups shared between the two plugins.
       local function apply_highlights()
-        local links = {
-          HgsignsAdd = preferred_link("GitSignsAdd", "DiffAdd"),
-          HgsignsChange = preferred_link("GitSignsChange", "DiffChange"),
-          HgsignsDelete = preferred_link("GitSignsDelete", "DiffDelete"),
-          HgsignsTopdelete = preferred_link("GitSignsTopdelete", "DiffDelete"),
-          HgsignsChangedelete = preferred_link("GitSignsChangedelete", "DiffDelete"),
-          HgsignsPreviewAddInline = preferred_link("GitSignsAddInline", "DiffAdd"),
-          HgsignsPreviewDeleteInline = preferred_link("GitSignsDeleteInline", "DiffDelete"),
+        local shared_suffixes = {
+          -- sign column signs
+          "Add",
+          "Change",
+          "Delete",
+          "Topdelete",
+          "Changedelete",
+          "Untracked",
+          -- line-number column
+          "AddNr",
+          "ChangeNr",
+          "DeleteNr",
+          -- line highlights
+          "AddLn",
+          "ChangeLn",
+          "DeleteLn",
+          -- inline diff (preview)
+          "AddInline",
+          "ChangeInline",
+          "DeleteInline",
+          "AddLnInline",
+          "ChangeLnInline",
+          "DeleteLnInline",
+          -- virtual-line diff
+          "DeleteVirtLn",
+          "DeleteVirtLnInLine",
+          "VirtLnum",
+          -- previews
+          "AddPreview",
+          "DeletePreview",
+          "NoEOLPreview",
         }
 
-        for from, to in pairs(links) do
-          vim.api.nvim_set_hl(0, from, { link = to })
+        for _, suffix in ipairs(shared_suffixes) do
+          local git_hl = "GitSigns" .. suffix
+          if vim.fn.hlexists(git_hl) == 1 then
+            vim.api.nvim_set_hl(0, "Hgsigns" .. suffix, { link = git_hl })
+          end
         end
+
+        -- CurrentLineBlame has no direct GitSigns fallback in some themes so
+        -- keep a safe fallback of Comment (always defined, always visible).
+        local clb = vim.fn.hlexists("GitSignsCurrentLineBlame") == 1 and "GitSignsCurrentLineBlame" or "Comment"
+        vim.api.nvim_set_hl(0, "HgsignsCurrentLineBlame", { link = clb })
       end
 
       apply_highlights()
