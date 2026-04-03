@@ -6,8 +6,8 @@ return {
       signs = {
         add = { text = "▎" },
         change = { text = "▎" },
-        delete = { text = "" },
-        topdelete = { text = "" },
+        delete = { text = "" },
+        topdelete = { text = "" },
         changedelete = { text = "▎" },
       },
       preview_config = {
@@ -55,88 +55,5 @@ return {
         map({ "o", "x" }, "ih", hs.select_hunk, "Mercurial Hunk (hg)")
       end,
     },
-    config = function(_, opts)
-      local hgsigns = require("hgsigns")
-      hgsigns.setup(opts)
-
-      local hl_group = vim.api.nvim_create_augroup("hgsigns_lazyvim_highlights", { clear = true })
-
-      -- Mirror every Hgsigns* highlight group to its GitSigns* counterpart so
-      -- that Mercurial signs always use the same palette as Git signs, regardless
-      -- of theme.  The suffix after "Hgsigns" / "GitSigns" is identical for all
-      -- groups shared between the two plugins.
-      local function apply_highlights()
-        local shared_suffixes = {
-          -- sign column signs
-          "Add",
-          "Change",
-          "Delete",
-          "Topdelete",
-          "Changedelete",
-          "Untracked",
-          -- line-number column
-          "AddNr",
-          "ChangeNr",
-          "DeleteNr",
-          -- line highlights
-          "AddLn",
-          "ChangeLn",
-          "DeleteLn",
-          -- inline diff (preview)
-          "AddInline",
-          "ChangeInline",
-          "DeleteInline",
-          "AddLnInline",
-          "ChangeLnInline",
-          "DeleteLnInline",
-          -- virtual-line diff
-          "DeleteVirtLn",
-          "DeleteVirtLnInLine",
-          "VirtLnum",
-          -- previews
-          "AddPreview",
-          "DeletePreview",
-          "NoEOLPreview",
-        }
-
-        for _, suffix in ipairs(shared_suffixes) do
-          local git_hl = "GitSigns" .. suffix
-          if vim.fn.hlexists(git_hl) == 1 then
-            vim.api.nvim_set_hl(0, "Hgsigns" .. suffix, { link = git_hl })
-          end
-        end
-
-        -- CurrentLineBlame has no direct GitSigns fallback in some themes so
-        -- keep a safe fallback of Comment (always defined, always visible).
-        local clb = vim.fn.hlexists("GitSignsCurrentLineBlame") == 1 and "GitSignsCurrentLineBlame" or "Comment"
-        vim.api.nvim_set_hl(0, "HgsignsCurrentLineBlame", { link = clb })
-      end
-
-      apply_highlights()
-      vim.schedule(apply_highlights)
-      vim.api.nvim_create_autocmd({ "ColorScheme", "BufEnter" }, {
-        group = hl_group,
-        callback = apply_highlights,
-      })
-    end,
-  },
-  {
-    "folke/snacks.nvim",
-    opts = function(_, opts)
-      opts = opts or {}
-      opts.statuscolumn = opts.statuscolumn or {}
-      opts.statuscolumn.git = opts.statuscolumn.git or {}
-
-      -- LazyVim/Snacks puts git signs in a dedicated statuscolumn slot based on
-      -- highlight/sign-name patterns. Add Hgsigns so Mercurial signs render in
-      -- the same slot as gitsigns instead of the generic sign slot.
-      local patterns = vim.deepcopy(opts.statuscolumn.git.patterns or { "GitSign", "MiniDiffSign" })
-      if not vim.tbl_contains(patterns, "Hgsigns") then
-        patterns[#patterns + 1] = "Hgsigns"
-      end
-      opts.statuscolumn.git.patterns = patterns
-
-      return opts
-    end,
   },
 }
