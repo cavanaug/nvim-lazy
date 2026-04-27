@@ -39,11 +39,13 @@
 vim.api.nvim_create_autocmd("ColorScheme", {
   group = vim.api.nvim_create_augroup("user_spell_highlights", { clear = true }),
   callback = function()
-    vim.api.nvim_set_hl(0, "SpellBad", { fg = "#ff0000", italic = true, underline = true })
+    -- vim.api.nvim_set_hl(0, "SpellBad", { fg = "#ff0000", italic = true, underline = true })
+    vim.api.nvim_set_hl(0, "SpellBad", { italic = true, underline = true })
   end,
 })
 -- Apply immediately for the current colorscheme
-vim.api.nvim_set_hl(0, "SpellBad", { fg = "#ff0000", italic = true, underline = true })
+-- vim.api.nvim_set_hl(0, "SpellBad", { fg = "#ff0000", italic = true, underline = true })
+vim.api.nvim_set_hl(0, "SpellBad", { italic = true, underline = true })
 
 vim.api.nvim_create_augroup("user_filetype_settings", { clear = true })
 
