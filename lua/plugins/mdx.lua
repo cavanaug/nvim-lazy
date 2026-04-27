@@ -140,7 +140,7 @@ return {
           vim.opt_local.spell = true -- Enable spell check
           vim.opt_local.wrap = true -- Enable word wrap
           vim.opt_local.linebreak = true -- Break at word boundaries
-          vim.opt_local.textwidth = 80 -- Text width for formatting
+          vim.opt_local.textwidth = 140 -- Text width for formatting
           vim.opt_local.commentstring = "{/* %s */}" -- JSX-style comments
         end,
       })
