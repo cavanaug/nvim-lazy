@@ -25,6 +25,14 @@ return {
         },
         opts = { skip = true },
       },
+      {
+        -- Suppress built-in "Word added to spellfile" message from zg/spellgood
+        filter = {
+          event = "msg_show",
+          find = "Word added to .*spellfile",
+        },
+        opts = { skip = true },
+      },
     },
   },
 }

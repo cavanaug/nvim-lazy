@@ -24,7 +24,6 @@ vim.api.nvim_create_autocmd("FileType", {
         { upward = true, path = vim.fn.expand("%:p:h") }
       )[1]
       if not cspell_config then
-        vim.notify("Added '" .. word .. "' to spellfile (no cspell config found)", vim.log.levels.INFO)
         return
       end
       if cspell_config:match("%.yaml$") or cspell_config:match("%.yml$") then
@@ -42,10 +41,6 @@ vim.api.nvim_create_autocmd("FileType", {
         if insert_idx then
           table.insert(lines, insert_idx + 1, "  - " .. word)
           vim.fn.writefile(lines, cspell_config)
-          vim.notify(
-            "Added '" .. word .. "' to spellfile + " .. vim.fn.fnamemodify(cspell_config, ":~:."),
-            vim.log.levels.INFO
-          )
           require("lint").try_lint()
         else
           vim.notify("Added '" .. word .. "' to spellfile (no 'words:' section in cspell config)", vim.log.levels.WARN)
