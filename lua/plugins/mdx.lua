@@ -96,30 +96,20 @@ return {
     },
   },
 
-  -- Formatting: Remove prettier, keep only markdownlint-cli2 and markdown-toc
+  -- Formatting: Remove prettier, keep only markdown-toc
   -- "markdown.mdx" is already handled by the markdown.lua config
   {
     "stevearc/conform.nvim",
     optional = true,
     opts = {
       formatters_by_ft = {
-        mdx = { "markdownlint-cli2", "markdown-toc" },
-        -- "markdown.mdx" is already handled by the markdown extra
+        mdx = { "markdown-toc" },
       },
     },
   },
 
-  -- Linting: Configure for MDX files
-  {
-    "mfussenegger/nvim-lint",
-    optional = true,
-    opts = {
-      linters_by_ft = {
-        mdx = { "markdownlint-cli2" },
-        -- "markdown.mdx" can be added if needed
-      },
-    },
-  },
+  -- Linting: Configure for MDX files (rumdl LSP handles linting via mason)
+  -- nvim-lint is not needed here; rumdl attaches via lspconfig
 
   -- Enable render-markdown for MDX files
   {

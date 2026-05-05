@@ -85,7 +85,7 @@ return {
       },
     },
   },
-  -- Disable markdownlint-cli2 linter; use cspell for spell checking (rumdl LSP handles markdown linting)
+  -- nvim-lint: use cspell for spell checking only (rumdl LSP handles markdown linting)
   {
     "mfussenegger/nvim-lint",
     optional = true,
