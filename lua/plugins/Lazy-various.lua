@@ -21,20 +21,18 @@ return {
       "folke/snacks.nvim",
     },
     cmd = "Nerdy",
+    opts = {
+      max_recents = 30, -- Configure recent icons limit
+      copy_to_clipboard = false, -- Copy glyph to clipboard instead of inserting
+      copy_register = "+", -- Register to use for copying (if `copy_to_clipboard` is true)
+    },
+    keys = {
+      { "<leader>in", ":Nerdy list<CR>", desc = "Browse nerd icons" },
+      { "<leader>iN", ":Nerdy recents<CR>", desc = "Browse recent nerd icons" },
+    },
   },
   {
     "fei6409/log-highlight.nvim",
     opts = {},
   },
-  -- {
-  --   -- Prettier indent markers
-  --   "lukas-reineke/indent-blankline.nvim",
-  --   enabled = false, -- Enable this plugin by default
-  --   opts = function(_, opts)
-  --     opts.indent = { char = "┆" }
-  --     -- opts.indent = { char = "" }
-  --     -- opts.indent = { char = "╎" }
-  --     -- opts.indent = { char = "┃" }
-  --   end,
-  -- },
 }
