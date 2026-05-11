@@ -145,7 +145,7 @@ set("n", "<C-e>", function()
   else
     vim.cmd("wincmd H") -- Move the second window to be side-by-side (vertical)
   end
-end, { desc = "Exchange window split orientation (*)", noremap = true })
+end, { desc = "Exchange (flip/transpose) window split orientation (*)", noremap = true })
 
 if true then
   return {}
