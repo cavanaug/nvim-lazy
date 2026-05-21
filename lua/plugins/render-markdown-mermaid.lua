@@ -7,6 +7,8 @@ return {
     },
     build = ":TSUpdate markdown markdown_inline",
     opts = {
+      mode = "unicode",
+      placement = "above",
       render_markdown = {
         latex = { enabled = false },
       },
