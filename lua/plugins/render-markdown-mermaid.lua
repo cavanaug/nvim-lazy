@@ -9,6 +9,7 @@ return {
     opts = {
       mode = "unicode",
       placement = "above",
+      replace = true, -- visually replace the fence in normal mode when not editing that block
       render_markdown = {
         latex = { enabled = false },
       },
