@@ -80,6 +80,13 @@ return {
       },
     },
   },
+  -- Browser preview: force light theme (default follows system prefers-color-scheme)
+  {
+    "iamcco/markdown-preview.nvim",
+    init = function()
+      vim.g.mkdp_theme = "light"
+    end,
+  },
   -- nvim-lint: use cspell for spell checking only (rumdl LSP handles markdown linting)
   {
     "mfussenegger/nvim-lint",
