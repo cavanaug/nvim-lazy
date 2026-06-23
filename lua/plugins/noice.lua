@@ -26,10 +26,17 @@ return {
         opts = { skip = true },
       },
       {
-        -- Suppress built-in "Word added to spellfile" message from zg/spellgood
+        -- Suppress built-in spellgood / mkspell messages from zg
         filter = {
           event = "msg_show",
-          find = "Word added to .*spellfile",
+          find = "Word '.*' added to",
+        },
+        opts = { skip = true },
+      },
+      {
+        filter = {
+          event = "msg_show",
+          find = "Unrecognized flags in .*%.add",
         },
         opts = { skip = true },
       },
