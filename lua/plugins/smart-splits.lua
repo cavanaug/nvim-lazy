@@ -12,6 +12,31 @@
 
 --- mini.move is installed via lazy extras, config for visual mode only, disable the normal mode
 --- smart-splits is the active mappings when not in visual mode
+local function in_herdr()
+  return vim.env.HERDR_PANE_ID ~= nil and vim.env.HERDR_PANE_ID ~= ""
+end
+
+local function move_with_context(wincmd, dir, fallback)
+  return function()
+    if not in_herdr() then
+      fallback()
+      return
+    end
+
+    local prev = vim.api.nvim_get_current_win()
+    vim.cmd("wincmd " .. wincmd)
+    if vim.api.nvim_get_current_win() ~= prev then
+      return
+    end
+
+    local herdr = vim.env.HERDR_BIN_PATH
+    if herdr == nil or herdr == "" then
+      herdr = "herdr"
+    end
+    vim.fn.system({ herdr, "pane", "focus", "--direction", dir, "--current" })
+  end
+end
+
 return {
   {
     "nvim-mini/mini.move",
@@ -35,30 +60,30 @@ return {
       { "<C-Right>", false },
       {
         "<C-h>",
-        function()
+        move_with_context("h", "left", function()
           require("smart-splits").move_cursor_left()
-        end,
+        end),
         desc = "Move cursor left (*)",
       },
       {
         "<C-l>",
-        function()
+        move_with_context("l", "right", function()
           require("smart-splits").move_cursor_right()
-        end,
+        end),
         desc = "Move cursor right (*)",
       },
       {
         "<C-j>",
-        function()
+        move_with_context("j", "down", function()
           require("smart-splits").move_cursor_down()
-        end,
+        end),
         desc = "Move cursor down (*)",
       },
       {
         "<C-k>",
-        function()
+        move_with_context("k", "up", function()
           require("smart-splits").move_cursor_up()
-        end,
+        end),
         desc = "Move cursor up (*)",
       },
       {
