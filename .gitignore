@@ -21,3 +21,4 @@ test-*.lua
 # Keep regression tests
 !tests/
 /.bg-shell
+.tokensave
