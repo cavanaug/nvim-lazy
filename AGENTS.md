@@ -2,7 +2,8 @@
 
 ## Overview
 
-This is a comprehensive Neovim configuration built on top of **LazyVim**, featuring extensive language support, AI integrations, and custom workflows. The configuration uses lazy.nvim for plugin management and follows LazyVim's modular architecture.
+This is a comprehensive Neovim configuration built on top of **LazyVim**, featuring extensive language support, AI integrations, and custom
+workflows. The configuration uses lazy.nvim for plugin management and follows LazyVim's modular architecture.
 
 **Official Documentation**: [LazyVim Documentation](https://lazyvim.org)
 
@@ -18,6 +19,7 @@ This is a comprehensive Neovim configuration built on top of **LazyVim**, featur
 ### Data & Cache Locations
 
 **Plugin Data Directories**:
+
 - **`~/.local/share/nvim/lazy/`** - Plugin source code repositories (managed by lazy.nvim)
 - **`~/.local/share/nvim/mason/`** - LSP servers, formatters, linters installed by Mason
 - **`~/.local/share/nvim/blink/`** - Blink.cmp completion data
@@ -25,6 +27,7 @@ This is a comprehensive Neovim configuration built on top of **LazyVim**, featur
 - **`~/.local/state/nvim/`** - Persistent state data (sessions, undo history)
 
 **For Documentation & Debugging**:
+
 - Use `ls ~/.local/share/nvim/lazy/` to see all installed plugins
 - Plugin source code at `~/.local/share/nvim/lazy/<plugin-name>/` contains:
   - README.md files with documentation
@@ -33,7 +36,8 @@ This is a comprehensive Neovim configuration built on top of **LazyVim**, featur
   - Example configurations in plugin repositories
 - Check `~/.cache/nvim/` for plugin logs (e.g., `diffview.log`, `telescope.log`)
 - Mason tools are in `~/.local/share/nvim/mason/bin/` and `~/.local/share/nvim/mason/packages/`
-- **Neovim Core Documentation**: Find version-specific help files at `/home/linuxbrew/.linuxbrew/Cellar/neovim/<version>/share/nvim/runtime/doc/`
+- **Neovim Core Documentation**: Find version-specific help files at
+  `/home/linuxbrew/.linuxbrew/Cellar/neovim/<version>/share/nvim/runtime/doc/`
   - Use `ls /home/linuxbrew/.linuxbrew/Cellar/neovim/` to see available versions
   - Contains core vim help files (api.txt, autocmd.txt, cmdline.txt, etc.)
   - Use `find /home/linuxbrew/.linuxbrew/Cellar/neovim/ -name "*.txt" -path "*/doc/*"` to locate all help files
@@ -41,6 +45,7 @@ This is a comprehensive Neovim configuration built on top of **LazyVim**, featur
 - Use `:checkhealth` in Neovim to see plugin status and potential issues
 
 **Advanced Debugging & Development**:
+
 - **Live Inspection**: Use `:lua print(vim.inspect(<object>))` to inspect Lua objects and configurations
 - **Plugin Loading**: Check `:Lazy profile` for plugin loading times and performance bottlenecks
 - **LSP Debugging**: Use `:LspInfo`, `:LspLog`, and `:Mason` for language server troubleshooting
@@ -54,7 +59,7 @@ This is a comprehensive Neovim configuration built on top of **LazyVim**, featur
 
 ### Directory Structure
 
-```
+```text
 /home/cavanaug/.config/nvim/
 ├── init.lua                    # Entry point - bootstraps lazy.nvim and LazyVim
 ├── lazyvim.json               # LazyVim extras configuration
@@ -82,6 +87,7 @@ This is a comprehensive Neovim configuration built on top of **LazyVim**, featur
 **Always check the current state before suggesting changes.** This configuration uses dynamic discovery rather than static documentation.
 
 ### Installed Plugins & Versions
+
 - **List all installed plugins**: `ls ~/.local/share/nvim/lazy/`
 - **Check locked versions**: `cat lazy-lock.json | jq` (or use `less`/`grep`)
 - **Interactive plugin manager**: In Neovim, run `:Lazy`
@@ -89,12 +95,14 @@ This is a comprehensive Neovim configuration built on top of **LazyVim**, featur
 - **Read plugin configuration**: `cat lua/plugins/<name>.lua`
 
 ### LazyVim Extras
+
 - **List enabled extras**: `cat lazyvim.json | jq '.extras'`
 - **Browse/toggle available extras**: In Neovim, run `:LazyExtras`
-- **Official extras catalog**: https://lazyvim.org/extras
+- **Official extras catalog**: <https://lazyvim.org/extras>
 - **IMPORTANT**: Always check if needed functionality exists as an extra before creating custom plugin configs
 
 ### Core Configuration Files
+
 - **Options & globals**: `cat lua/config/options.lua`
 - **Custom keymaps**: `cat lua/config/keymaps.lua`
 - **Autocommands**: `cat lua/config/autocmds.lua`
@@ -102,6 +110,7 @@ This is a comprehensive Neovim configuration built on top of **LazyVim**, featur
 - **Entry point**: `cat init.lua`
 
 ### Active Runtime State
+
 - **Current colorscheme**: `:lua print(vim.g.colors_name)`
 - **Leader keys**: `:lua print("Leader: " .. vim.g.mapleader .. ", Local: " .. vim.g.maplocalleader)`
 - **Picker preference**: `:lua print(vim.g.lazyvim_picker)` (returns: auto/snacks/telescope/fzf)
@@ -110,6 +119,7 @@ This is a comprehensive Neovim configuration built on top of **LazyVim**, featur
 - **Neovim version**: `:lua print(vim.version().major .. "." .. vim.version().minor .. "." .. vim.version().patch)`
 
 ### Finding Issues, TODOs, and Plans
+
 - **Health check**: `:checkhealth`
 - **Backlog & TODOs**: `cat README.md`
 - **Search config for TODOs**: `grep -r TODO lua/`
@@ -118,6 +128,7 @@ This is a comprehensive Neovim configuration built on top of **LazyVim**, featur
 - **Plugin-specific logs**: `ls ~/.cache/nvim/*.log`
 
 ### Standard Data Locations
+
 - **Config directory**: `:lua print(vim.fn.stdpath('config'))` → `~/.config/nvim`
 - **Data directory**: `:lua print(vim.fn.stdpath('data'))` → `~/.local/share/nvim`
 - **Cache directory**: `:lua print(vim.fn.stdpath('cache'))` → `~/.cache/nvim`
@@ -130,6 +141,7 @@ This is a comprehensive Neovim configuration built on top of **LazyVim**, featur
 This configuration includes comprehensive local documentation that should be your primary resource:
 
 #### 1. Neovim Core Documentation (FIRST)
+
 - **Location**: `/home/linuxbrew/.linuxbrew/Cellar/neovim/<version>/share/nvim/runtime/doc/`
 - **Access**: Use `:help <topic>` in Neovim for interactive help
 - **Direct access**: Read text files directly for automation/scripting
@@ -141,6 +153,7 @@ This configuration includes comprehensive local documentation that should be you
   - `:help options` - All Neovim options
 
 #### 2. Plugin Documentation (SECOND)
+
 - **Location**: `~/.local/share/nvim/lazy/<plugin-name>/`
 - **Contents**:
   - `README.md` - Plugin overview and quick start
@@ -153,11 +166,13 @@ This configuration includes comprehensive local documentation that should be you
   - `~/.local/share/nvim/lazy/snacks.nvim/` - Snacks plugin docs
 
 #### 3. LazyVim Official Documentation (THIRD)
-- **URL**: https://lazyvim.org
+
+- **URL**: <https://lazyvim.org>
 - **Purpose**: Official LazyVim extras catalog, configuration guides
 - **When to use**: When local docs don't cover LazyVim-specific features
 
 #### 4. Web/MCP Resources (LAST RESORT)
+
 - Only use external MCP servers or web searches when:
   - Local documentation doesn't contain the information
   - You need real-world examples from GitHub
@@ -165,7 +180,8 @@ This configuration includes comprehensive local documentation that should be you
   - You're researching new plugins not yet installed
 
 **Workflow Summary**:
-```
+
+```text
 1. `:help <topic>` in Neovim
 2. Check plugin README/docs in ~/.local/share/nvim/lazy/<plugin>/
 3. Browse https://lazyvim.org
@@ -183,29 +199,36 @@ Bootstrapper that loads `config.lazy` - follows LazyVim's minimal approach.
 ### Core Configuration (`lua/config/`)
 
 #### `lazy.lua` - Plugin Management
+
 Bootstraps lazy.nvim and configures LazyVim as the base framework. Custom plugins are loaded from the `plugins/` directory.
 
 **To inspect**: `cat lua/config/lazy.lua`
 
 #### `options.lua` - Core Settings  
-Contains Vim options, global settings, leader key definitions, and LazyVim behavior configuration (picker preference, completion engine, etc.).
+
+Contains Vim options, global settings, leader key definitions, and LazyVim behavior configuration (picker preference, completion engine,
+etc.).
 
 **To inspect**: `cat lua/config/options.lua`  
-**To check active values in Neovim**: 
+**To check active values in Neovim**:
+
 - Specific option: `:set <option>?`
 - Global variable: `:lua print(vim.g.<variable>)`
 - All options: `:set all`
 
 #### `keymaps.lua` - Custom Keybindings
+
 Custom keybindings that supplement or override LazyVim defaults.
 
 **To inspect**: `cat lua/config/keymaps.lua`  
-**To check active keymaps in Neovim**: 
+**To check active keymaps in Neovim**:
+
 - LazyVim which-key interface: Press `<Space>` and wait
 - Snacks picker search: `Snacks.picker.keymaps()`
 - Vim commands: `:map`, `:nmap`, `:imap`, etc.
 
 #### `autocmds.lua` - Autocommands
+
 Custom autocommands for filetype detection, spell checking, tmux integration, and editor behavior.
 
 **To inspect**: `cat lua/config/autocmds.lua`  
@@ -216,7 +239,7 @@ Custom autocommands for filetype detection, spell checking, tmux integration, an
 ### Configuration Approach
 
 - **LazyVim Extras First**: This configuration heavily relies on LazyVim's curated extras system
-  - **Before adding any plugin**: Check https://lazyvim.org/extras for available extras
+  - **Before adding any plugin**: Check <https://lazyvim.org/extras> for available extras
   - **Prefer extras over custom**: LazyVim extras are pre-configured, tested, and maintained by the LazyVim team
   - **Enable via lazyvim.json**: Use `:LazyExtras` in Neovim to browse and enable extras
   - **Custom only when necessary**: Create custom plugin configs only for:
@@ -252,7 +275,7 @@ Custom autocommands for filetype detection, spell checking, tmux integration, an
 - **Inline Comments**: Extensive commenting in configuration files
 - **Backlog Tracking**: README.md tracks TODOs, learning targets, and future improvements
 - **Architecture Documentation**: This AGENTS.md file provides guidance for AI assistants
-- **Official Reference**: Always consult https://lazyvim.org for latest LazyVim features and extras
+- **Official Reference**: Always consult <https://lazyvim.org> for latest LazyVim features and extras
 
 ## Working with This Configuration
 
@@ -266,8 +289,8 @@ This configuration **strongly prefers using LazyVim-supplied plugins and extras*
 
 **Always follow this order:**
 
-1. **Check LazyVim Extras First**: 
-   - Browse available extras: https://lazyvim.org/extras
+1. **Check LazyVim Extras First**:
+   - Browse available extras: <https://lazyvim.org/extras>
    - In Neovim: `:LazyExtras`
    - Check what's currently enabled: `cat lazyvim.json | jq '.extras'`
 
@@ -294,16 +317,19 @@ This configuration **strongly prefers using LazyVim-supplied plugins and extras*
 #### Key Principles
 
 **Avoid Capability Conflicts**:
+
 - Don't install custom versions of plugins already provided by LazyVim
 - Don't create custom configs for plugins available as extras
 - When in doubt about conflicts, ask the user for clarification
 
 **Prefer Built-in LazyVim Plugins**:
+
 - When multiple options exist, prefer plugins by the LazyVim author (folke)
 - Example: **Snacks** (built-in) over **Telescope** (available as extra)
 - Built-in plugins are designed to work seamlessly and receive priority support
 
 **Custom Plugins Are Acceptable When**:
+
 - Functionality is NOT available as a LazyVim extra
 - You need to override/extend existing extra configuration
 - Plugin is truly unique to this setup
@@ -311,6 +337,7 @@ This configuration **strongly prefers using LazyVim-supplied plugins and extras*
 #### Primary Tools in This Configuration
 
 **Picker/Fuzzy Finder**:
+
 - **Primary**: Snacks picker (`lazyvim.plugins.extras.editor.snacks_picker`)
 - Also available: FZF (`lazyvim.plugins.extras.editor.fzf`)
 - **Usage in Neovim**:
@@ -322,16 +349,19 @@ This configuration **strongly prefers using LazyVim-supplied plugins and extras*
 - **When providing examples**: Use Snacks picker commands, NOT Telescope
 
 **Completion Engine**:
+
 - **Auto-detected**: Set to `"auto"` in `vim.g.lazyvim_cmp`
 - Supports both nvim-cmp and blink.cmp
 - Check active: `:lua print(vim.g.lazyvim_cmp)`
 
 **AI Assistants**:
+
 - GitHub Copilot (`lazyvim.plugins.extras.ai.copilot`)
 - Copilot Chat (`lazyvim.plugins.extras.ai.copilot-chat`)
 - Sidekick (`lazyvim.plugins.extras.ai.sidekick`)
 
 **MCP Integration**:
+
 - nvim-mcp (`linw1995/nvim-mcp`) - MCP server for live Neovim interaction
   - Configured in `opencode.json` as the `nvim` MCP server
   - Plugin in `lua/plugins/agents.lua` creates the RPC socket automatically
@@ -339,11 +369,12 @@ This configuration **strongly prefers using LazyVim-supplied plugins and extras*
 
 ### Testing Configuration Changes
 
-**CRITICAL: Always test changes headlessly before considering them complete.** AI agents must validate changes programmatically, not through user interaction.
+**CRITICAL: Always test changes headlessly before considering them complete.** AI agents must validate changes programmatically, not through
+user interaction.
 
 #### Testing Directory Structure
 
-```
+```text
 ~/.config/nvim/
 ├── tmp/                    # Temporary scratch files (disposable)
 │   ├── test-plugin.lua    # Quick test files
@@ -356,6 +387,7 @@ This configuration **strongly prefers using LazyVim-supplied plugins and extras*
 ```
 
 **Usage**:
+
 - **tmp/**: Disposable test files, experiments, one-off validations
 - **tests/**: Permanent test suite that should pass after any config change
 
@@ -364,6 +396,7 @@ This configuration **strongly prefers using LazyVim-supplied plugins and extras*
 **All tests should run in headless mode** to enable automation and verification without user interaction.
 
 1. **Create Temporary Files in tmp/**:
+
    ```bash
    # tmp/ is gitignored and safe for disposable experiments
    mkdir -p ~/.config/nvim/tmp
@@ -378,6 +411,7 @@ This configuration **strongly prefers using LazyVim-supplied plugins and extras*
    ```
 
 2. **Basic Headless Validation**:
+
    ```bash
    # Test if Neovim starts without errors
    nvim --headless --noplugin -c 'quit' 2>&1
@@ -390,6 +424,7 @@ This configuration **strongly prefers using LazyVim-supplied plugins and extras*
    ```
 
 3. **Test Plugin Configuration Headlessly**:
+
    ```bash
    # Create test plugin in tmp/ (disposable)
    cat > ~/.config/nvim/tmp/test-plugin.lua << 'EOF'
@@ -417,6 +452,7 @@ This configuration **strongly prefers using LazyVim-supplied plugins and extras*
    ```
 
 4. **Run Regression Test Suite**:
+
    ```bash
    # After making any config change, run existing tests
    # to ensure nothing broke
@@ -426,6 +462,7 @@ This configuration **strongly prefers using LazyVim-supplied plugins and extras*
    ```
 
 5. **Validate with Lua Commands**:
+
    ```bash
    # Test specific Lua code execution
    nvim --headless -c 'lua print(vim.version())' -c 'quit' 2>&1
@@ -438,6 +475,7 @@ This configuration **strongly prefers using LazyVim-supplied plugins and extras*
    ```
 
 6. **Run Health Checks Headlessly**:
+
    ```bash
    # Full health check
    nvim --headless +'checkhealth' +'quit' 2>&1 | tee /tmp/health-check.log
@@ -465,6 +503,7 @@ This configuration **strongly prefers using LazyVim-supplied plugins and extras*
    - [ ] No ERROR/WARN in health check output
 
 8. **Cleanup After Testing**:
+
    ```bash
    # Clean up tmp/ disposable files
    rm ~/.config/nvim/tmp/test-*.lua
@@ -479,6 +518,7 @@ This configuration **strongly prefers using LazyVim-supplied plugins and extras*
 #### Headless Testing Best Practices
 
 **Always Use Headless Mode for Automation**:
+
 ```bash
 # GOOD - Headless, verifiable
 nvim --headless +'checkhealth' +'quit' 2>&1
@@ -488,6 +528,7 @@ nvim -c 'checkhealth'
 ```
 
 **Capture Output for Analysis**:
+
 ```bash
 # Redirect stderr and stdout
 nvim --headless -c 'messages' -c 'quit' 2>&1 | tee output.log
@@ -500,6 +541,7 @@ grep -i "error\|warn" output.log
 ```
 
 **Test Incrementally**:
+
 ```bash
 # Step 1: Config loads without errors
 nvim --headless -c 'quit' 2>&1 && echo "✓ Config OK"
@@ -517,6 +559,7 @@ bash ~/.config/nvim/tests/run-all.sh && echo "✓ All tests pass"
 #### Common Headless Test Scenarios
 
 **1. Testing LazyVim Extra**:
+
 ```bash
 # After editing lazyvim.json to add extra
 # Verify JSON is valid
@@ -532,6 +575,7 @@ grep -i "error" /tmp/health.log && echo "✗ Errors found" || echo "✓ No error
 ```
 
 **2. Testing Custom Plugin**:
+
 ```bash
 # Create in tmp first
 cat > ~/.config/nvim/tmp/test-plugin.lua << 'EOF'
@@ -555,6 +599,7 @@ nvim --headless -c 'lua for name, _ in pairs(require("lazy").plugins()) do print
 ```
 
 **3. Testing Options**:
+
 ```bash
 # Test option is set correctly
 nvim --headless -c 'lua print("Leader: " .. vim.g.mapleader)' -c 'quit' 2>&1
@@ -569,6 +614,7 @@ nvim --headless -c 'lua print(vim.inspect({
 ```
 
 **4. Testing Keymaps**:
+
 ```bash
 # List all keymaps (outputs to check conflicts)
 nvim --headless -c 'lua for _, map in pairs(vim.api.nvim_get_keymap("n")) do print(map.lhs, "->", map.rhs or "function") end' -c 'quit' 2>&1
@@ -584,6 +630,7 @@ end' -c 'quit' 2>&1
 ```
 
 **5. Testing LSP Configuration**:
+
 ```bash
 # Check LSP servers configured
 nvim --headless -c 'lua print(vim.inspect(require("lspconfig").util.available_servers()))' -c 'quit' 2>&1
@@ -597,6 +644,7 @@ nvim --headless +'checkhealth lsp' +'quit' 2>&1
 **If Headless Test Fails**:
 
 1. **Examine Error Output**:
+
    ```bash
    # Run with verbose logging
    nvim --headless -V1 -c 'quit' 2>&1 | tee /tmp/nvim-verbose.log
@@ -606,6 +654,7 @@ nvim --headless +'checkhealth lsp' +'quit' 2>&1
    ```
 
 2. **Isolate the Problem**:
+
    ```bash
    # Test without the new plugin
    mv ~/.config/nvim/lua/plugins/test-plugin.lua ~/.config/nvim/tmp/
@@ -614,6 +663,7 @@ nvim --headless +'checkhealth lsp' +'quit' 2>&1
    ```
 
 3. **Revert Changes**:
+
    ```bash
    # Remove problematic plugin
    rm ~/.config/nvim/lua/plugins/problematic-plugin.lua
@@ -623,6 +673,7 @@ nvim --headless +'checkhealth lsp' +'quit' 2>&1
    ```
 
 4. **Plugin-Specific Rollback**:
+
    ```bash
    # Restore specific plugin version from lazy-lock.json
    nvim --headless +'Lazy restore' +'quit' 2>&1
@@ -638,7 +689,8 @@ nvim --headless +'checkhealth lsp' +'quit' 2>&1
 **Once headless tests pass**:
 
 1. **Report results to user**:
-   ```
+
+   ```text
    Test Results:
    - Config loads: ✓ (exit code 0)
    - Health check: ✓ (no errors)
@@ -648,6 +700,7 @@ nvim --headless +'checkhealth lsp' +'quit' 2>&1
    ```
 
 2. **Clean up test artifacts**:
+
    ```bash
    rm ~/.config/nvim/tmp/test-*.lua
    rm /tmp/nvim-*.log
@@ -659,6 +712,7 @@ nvim --headless +'checkhealth lsp' +'quit' 2>&1
    - Highlight any architectural changes
 
 4. **List files modified**:
+
    ```bash
    # Show user what was changed
    ls -lt ~/.config/nvim/lua/plugins/ | head -5
@@ -667,16 +721,22 @@ nvim --headless +'checkhealth lsp' +'quit' 2>&1
 
 ### nvim-mcp Live Testing & Debugging
 
-**Overview**: The [nvim-mcp](https://github.com/linw1995/nvim-mcp) MCP server provides a bridge between AI agents (via OpenCode) and a **live, running Neovim instance**. It exposes 33 tools for interacting with Neovim through the Model Context Protocol, including arbitrary Lua execution, LSP queries, buffer inspection, and diagnostics retrieval.
+**Overview**: The [nvim-mcp](https://github.com/linw1995/nvim-mcp) MCP server provides a bridge between AI agents (via OpenCode) and a
+**live, running Neovim instance**. It exposes 33 tools for interacting with Neovim through the Model Context Protocol, including arbitrary
+Lua execution, LSP queries, buffer inspection, and diagnostics retrieval.
 
 **Why use nvim-mcp instead of (or in addition to) headless testing**:
-- Headless mode (`nvim --headless`) is good for basic validation (config loads, no errors), but some plugins behave differently without a UI, LSP servers may not fully attach, and you cannot inspect real editor state.
-- nvim-mcp connects to a **fully loaded Neovim instance** with all plugins loaded, LSP servers attached, and real buffers available. It provides ground-truth visibility into the live environment.
-- Use headless tests for **fast, automated validation** (config loads, health checks, regression suite). Use nvim-mcp for **live verification** (plugin behavior, LSP state, runtime option values, diagnostic accuracy).
+
+- Headless mode (`nvim --headless`) is good for basic validation (config loads, no errors), but some plugins behave differently without a
+  UI, LSP servers may not fully attach, and you cannot inspect real editor state.
+- nvim-mcp connects to a **fully loaded Neovim instance** with all plugins loaded, LSP servers attached, and real buffers available. It
+  provides ground-truth visibility into the live environment.
+- Use headless tests for **fast, automated validation** (config loads, health checks, regression suite). Use nvim-mcp for
+  **live verification** (plugin behavior, LSP state, runtime option values, diagnostic accuracy).
 
 #### Architecture
 
-```
+```text
 OpenCode (AI agent)
     │
     ├── opencode.json defines "nvim" MCP server
@@ -695,16 +755,19 @@ Neovim instance (running in detached tmux session)
 ```
 
 **Configuration files involved**:
+
 - `lua/plugins/agents.lua` - Neovim plugin spec for `linw1995/nvim-mcp` (creates the socket)
 - `opencode.json` - Registers the `nvim` MCP server for OpenCode
 
 #### Launching a Dedicated Neovim Instance
 
-The agent should **always launch its own dedicated Neovim instance** inside a detached tmux session. This ensures a consistent, isolated environment for testing regardless of what the user has open.
+The agent should **always launch its own dedicated Neovim instance** inside a detached tmux session. This ensures a consistent, isolated
+environment for testing regardless of what the user has open.
 
 **Session name**: `nvim-mcp-agent`
 
 **Launch procedure**:
+
 ```bash
 # Step 1: Kill any existing agent session (ensures fresh state)
 tmux kill-session -t nvim-mcp-agent 2>/dev/null
@@ -723,6 +786,7 @@ ls /tmp/nvim-mcp.* 2>/dev/null || echo "ERROR: Socket not created"
 ```
 
 **Key points**:
+
 - `nvim --headless` loads the full config (all 75+ plugins) but uses no UI resources
 - The nvim-mcp plugin automatically creates the RPC socket on startup
 - The socket appears within ~1 second of launch
@@ -730,13 +794,16 @@ ls /tmp/nvim-mcp.* 2>/dev/null || echo "ERROR: Socket not created"
 - The user can inspect the instance: `tmux attach -t nvim-mcp-agent`
 
 **Teardown** (when done with testing):
+
 ```bash
 tmux kill-session -t nvim-mcp-agent 2>/dev/null
 ```
+
 The socket at `/tmp/nvim-mcp.*.sock` is cleaned up automatically when Neovim exits.
 
 **Restarting after config changes**:
 If the agent edits config files and needs to test with the updated config, it must kill and relaunch the tmux session:
+
 ```bash
 tmux kill-session -t nvim-mcp-agent 2>/dev/null
 sleep 1
@@ -754,6 +821,7 @@ When using `--connect auto` (the default in this config), connection is automati
 4. A `connection_id` is assigned automatically
 
 **Verifying connectivity**:
+
 ```bash
 # Check if the nvim-mcp socket exists
 ls /tmp/nvim-mcp.* 2>/dev/null
@@ -770,11 +838,13 @@ All tools below require a `connection_id` parameter. With `--connect auto`, the 
 
 #### Key Tools for Configuration Testing
 
-**`exec_lua`** -- The most important tool. Executes arbitrary Lua code in the running Neovim instance and returns the result. This gives full access to the Neovim API.
+**`exec_lua`** -- The most important tool. Executes arbitrary Lua code in the running Neovim instance and returns the result. This gives
+full access to the Neovim API.
 
 Use `exec_lua` for:
 
 - **Verify options are set correctly**:
+
   ```lua
   -- Check leader key
   return vim.g.mapleader
@@ -791,6 +861,7 @@ Use `exec_lua` for:
   ```
 
 - **Verify a plugin is loaded and configured**:
+
   ```lua
   -- Check if a specific plugin is loaded
   local plugins = require("lazy").plugins()
@@ -804,6 +875,7 @@ Use `exec_lua` for:
   ```
 
 - **Inspect keymaps**:
+
   ```lua
   -- Find all keymaps with a specific prefix
   local maps = vim.api.nvim_get_keymap("n")
@@ -817,23 +889,27 @@ Use `exec_lua` for:
   ```
 
 - **Check autocommands**:
+
   ```lua
   -- List autocommands for a specific group or event
   return vim.inspect(vim.api.nvim_get_autocmds({ event = "FileType" }))
   ```
 
 - **Read `:messages` output**:
+
   ```lua
   return vim.api.nvim_exec2("messages", { output = true }).output
   ```
 
 - **Run health checks**:
+
   ```lua
   vim.cmd("checkhealth lazy")
   -- Note: output goes to a buffer, not return value
   ```
 
 - **Read buffer contents** (reliable alternative to `read` tool):
+
   ```lua
   -- Read by buffer id (use list_buffers to find ids)
   local lines = vim.api.nvim_buf_get_lines(2, 0, -1, false)
@@ -850,13 +926,16 @@ Use `exec_lua` for:
 
 **`lsp_clients`** -- List all active LSP clients and their configurations. Use to verify LSP servers are attached to the correct filetypes.
 
-**`wait_for_lsp_ready`** -- Wait for a specific LSP client to be ready before running LSP-dependent checks. Use this before `buffer_diagnostics` or other LSP tools to avoid race conditions.
+**`wait_for_lsp_ready`** -- Wait for a specific LSP client to be ready before running LSP-dependent checks. Use this before
+`buffer_diagnostics` or other LSP tools to avoid race conditions.
 
 **`list_buffers`** -- List all open buffers with names and line counts. Useful for understanding what files are loaded in the editor.
 
-**`buffer_diagnostics`** -- Get LSP diagnostics (errors, warnings) for a specific buffer. Use after making config changes to verify no new errors appeared.
+**`buffer_diagnostics`** -- Get LSP diagnostics (errors, warnings) for a specific buffer. Use after making config changes to verify no new
+errors appeared.
 
 **`read`** -- Read buffer contents. Supports three document identification methods:
+
 - `{"buffer_id": 1}` - By buffer number
 - `{"project_relative_path": "lua/plugins/agents.lua"}` - By relative path
 - `{"absolute_path": "/home/cavanaug/.config/nvim/lua/plugins/agents.lua"}` - By absolute path
@@ -868,17 +947,20 @@ Use `exec_lua` for:
 
 #### Key Tools for Debugging
 
-**`lsp_hover`** -- Get type information and documentation at a specific position. Useful for understanding what the LSP knows about a symbol.
+**`lsp_hover`** -- Get type information and documentation at a specific position. Useful for understanding what the LSP knows about a
+symbol.
 
 **`lsp_code_actions`** -- Get available code actions for a range. Shows what fixes the LSP suggests.
 
 **`lsp_definition`** / **`lsp_references`** -- Navigate symbol relationships through the live LSP. Useful for understanding code structure.
 
-**`lsp_document_symbols`** -- Get all symbols in a document (functions, variables, types). Useful for verifying treesitter/LSP parsing works correctly.
+**`lsp_document_symbols`** -- Get all symbols in a document (functions, variables, types). Useful for verifying treesitter/LSP parsing works
+correctly.
 
 **`lsp_workspace_symbols`** -- Search symbols across the entire workspace.
 
-**`navigate`** -- Move the cursor to a specific file and position. Can be used to coordinate with the user or to set up context for subsequent LSP queries.
+**`navigate`** -- Move the cursor to a specific file and position. Can be used to coordinate with the user or to set up context for
+subsequent LSP queries.
 
 #### MCP Resources
 
@@ -908,12 +990,14 @@ Resources provide structured data without requiring tool calls:
 **After making a config change, the recommended validation sequence is**:
 
 1. **Headless tests first** (fast, no dependencies):
+
    ```bash
    nvim --headless -c 'quit' 2>&1 && echo "Config OK"
    bash ~/.config/nvim/tests/run-all.sh
    ```
 
 2. **Launch dedicated Neovim for live testing**:
+
    ```bash
    # Always start a fresh instance with latest config
    tmux kill-session -t nvim-mcp-agent 2>/dev/null
@@ -932,11 +1016,13 @@ Resources provide structured data without requiring tool calls:
    - Report findings to the user
 
 4. **Teardown when done**:
+
    ```bash
    tmux kill-session -t nvim-mcp-agent 2>/dev/null
    ```
 
 **Important considerations**:
+
 - nvim-mcp adds 33 tools to the MCP context, which increases token usage. Use it deliberately rather than on every interaction.
 - After editing config files, kill and relaunch the tmux session to pick up changes.
 - The agent-launched instance runs `nvim --headless` with the full config (all plugins loaded) but no UI overhead.
@@ -946,16 +1032,17 @@ Resources provide structured data without requiring tool calls:
 
 **Before Making Any Changes**:
 
-1. **Check LazyVim Extras First**: 
-   - Browse catalog: https://lazyvim.org/extras
+1. **Check LazyVim Extras First**:
+   - Browse catalog: <https://lazyvim.org/extras>
    - Check enabled: `cat lazyvim.json | jq '.extras'`
    - In Neovim: `:LazyExtras`
    - **If functionality exists as an extra, suggest enabling it instead of creating custom plugin**
 
 2. **Consult Local Documentation First**:
-   - Check Neovim core help files: `:help <topic>` or directly read files in `/home/linuxbrew/.linuxbrew/Cellar/neovim/<version>/share/nvim/runtime/doc/`
+   - Check Neovim core help files: `:help <topic>` or directly read files in
+     `/home/linuxbrew/.linuxbrew/Cellar/neovim/<version>/share/nvim/runtime/doc/`
    - Check plugin documentation: `~/.local/share/nvim/lazy/<plugin>/README.md` and `doc/` directory
-   - Review LazyVim official docs: https://lazyvim.org
+   - Review LazyVim official docs: <https://lazyvim.org>
    - **Only use MCP servers or web searches** when local docs don't have the answer
    - **Prefer local examples**: Check existing plugin configs in this repository before searching GitHub
    - **If using gh_grep MCP**: Only invoke when you need real-world GitHub examples not available locally
@@ -999,15 +1086,19 @@ Resources provide structured data without requiring tool calls:
    - **CRITICAL**: All Lua code edits MUST follow StyLua formatting rules
    - Configuration is defined in `stylua.toml` (indent: 2 spaces, quotes: double, column width: 120)
    - **After editing any Lua file**, run StyLua to ensure proper formatting:
+
      ```bash
      stylua --config-path ~/.config/nvim/stylua.toml <file-path>
      ```
+
    - **Verify formatting** before considering the edit complete:
+
      ```bash
      # Check if file needs formatting (exit code 1 = needs formatting)
      stylua --check --config-path ~/.config/nvim/stylua.toml <file-path>
      echo $?  # Should be 0 if properly formatted
      ```
+
    - **Common StyLua rules to follow**:
      - Use **double quotes** for strings (not single quotes): `"example"` not `'example'`
      - 2-space indentation (spaces, not tabs)
@@ -1018,24 +1109,25 @@ Resources provide structured data without requiring tool calls:
 
 9. **Code Examples & Documentation**:
    - Use Snacks picker in examples, NOT Telescope
-   - Reference LazyVim docs: https://lazyvim.org
+   - Reference LazyVim docs: <https://lazyvim.org>
    - Check actual invocations from LazyVim source when uncertain
 
 10. **Testing & Compatibility**:
-   - Check `lazy-lock.json` for exact plugin versions
-   - Verify changes don't conflict with LazyVim base configuration
-   - Use `:checkhealth` to validate setup
+    - Check `lazy-lock.json` for exact plugin versions
+    - Verify changes don't conflict with LazyVim base configuration
+    - Use `:checkhealth` to validate setup
 
 11. **NEVER Manipulate Git**:
-   - **DO NOT** run git commands (commit, add, push, pull, etc.)
-   - **DO NOT** modify git state or history
-   - **DO NOT** create commits or branches
-   - Version control is the user's responsibility
-   - Only read git status if explicitly needed for context
+    - **DO NOT** run git commands (commit, add, push, pull, etc.)
+    - **DO NOT** modify git state or history
+    - **DO NOT** create commits or branches
+    - Version control is the user's responsibility
+    - Only read git status if explicitly needed for context
 
 ### Plugin Research & Documentation
 
 **Dynamic Plugin Discovery**:
+
 - Run `ls ~/.local/share/nvim/lazy/` to see currently installed plugins
 - Each plugin directory contains source code and documentation
 - Check `~/.local/share/nvim/lazy/<plugin>/README.md` for plugin documentation
@@ -1043,18 +1135,21 @@ Resources provide structured data without requiring tool calls:
 - Examine `~/.local/share/nvim/lazy/<plugin>/lua/` for source code and examples
 
 **Debugging & Logs**:
+
 - Check `~/.cache/nvim/` for plugin-specific log files
 - Use `~/.cache/nvim/luac/` for compiled Lua bytecode cache
 - Mason logs and registry data in `~/.cache/nvim/mason-registry-update`
 - Theme cache files (e.g., `tokyonight-*.json`) in `~/.cache/nvim/`
 
 **State & Persistence**:
+
 - Use `~/.local/state/nvim/` for session data, undo history, and plugin state
 - Backup and undo files follow XDG specification based on `NVIM_APPNAME`
 
 ### Development Commands
 
 **Basic Commands**:
+
 - `:Lazy` - Plugin management interface
 - `:LazyExtras` - LazyVim extras management
 - `:Mason` - LSP/tool management
@@ -1062,6 +1157,7 @@ Resources provide structured data without requiring tool calls:
 - `:Nerdy` - Icon/symbol picker
 
 **Additional Debugging Commands**:
+
 - `:lua =vim.version()` - Check Neovim version and build info
 - `:lua =vim.fn.stdpath('data')` - Get data directory path
 - `:lua =vim.fn.stdpath('config')` - Get config directory path

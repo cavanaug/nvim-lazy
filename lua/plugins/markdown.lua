@@ -57,11 +57,20 @@ return {
   -- the value and (re)opening the preview is enough to apply a new width.
   --
   -- Commands:
-  --   :MarkdownPreview      stock command -> normal width (900px)
-  --   :MarkdownPreviewWide  wider fixed column (1400px)
-  --   :MarkdownPreviewFlex  scales with the browser window (90vw)
+  --   :MarkdownPreview       default preview -> wide column (1400px)
+  --   :MarkdownPreviewNormal  stock GitHub width (900px)
+  --   :MarkdownPreviewWide    wider fixed column (1400px, same as default)
+  --   :MarkdownPreviewFlex    scales with the browser window (90vw)
   {
     "iamcco/markdown-preview.nvim",
+    cmd = {
+      "MarkdownPreview",
+      "MarkdownPreviewStop",
+      "MarkdownPreviewToggle",
+      "MarkdownPreviewNormal",
+      "MarkdownPreviewWide",
+      "MarkdownPreviewFlex",
+    },
     init = function()
       vim.g.mkdp_theme = "light"
     end,
@@ -116,31 +125,64 @@ return {
       -- Point g:mkdp_markdown_css at the right file, then open the preview. If a
       -- preview is already open we stop first so the browser refetches the new
       -- CSS (the plugin reuses an existing tab otherwise, keeping the old width).
-      local function preview_with(mode)
-        vim.g.mkdp_markdown_css = css_for(mode)
+      local function ensure_preview_commands()
+        -- Buffer-local :MarkdownPreview is registered by mkdp's FileType autocmd.
+        -- After lazy-load that autocmd may not have fired yet (LazyVim's extra used
+        -- to run `do FileType` here; we must do the same or the command is missing).
+        if vim.fn.exists(":MarkdownPreview") ~= 2 then
+          vim.cmd("doautocmd FileType")
+        end
+      end
 
-        -- :MarkdownPreview* are buffer-local and only exist in markdown buffers.
+      local function open_preview(mode)
+        vim.g.mkdp_markdown_css = css_for(mode)
+        ensure_preview_commands()
+
         if vim.fn.exists(":MarkdownPreview") ~= 2 then
           vim.notify("MarkdownPreview is not available in this buffer", vim.log.levels.WARN)
           return
         end
 
-        pcall(vim.cmd, "MarkdownPreviewStop")
+        pcall(vim.fn["mkdp#util#stop_preview"])
         vim.defer_fn(function()
-          vim.cmd("MarkdownPreview")
+          vim.fn["mkdp#util#open_preview_page"]()
         end, 100)
       end
 
-      -- Default to normal so a bare :MarkdownPreview renders at stock width.
-      vim.g.mkdp_markdown_css = css_for("normal")
+      -- :MarkdownPreview is registered by mkdp as buffer-local; replace it so the
+      -- stock command name opens wide while :MarkdownPreviewNormal keeps 900px.
+      local function override_markdown_preview()
+        if not vim.tbl_contains({ "markdown", "markdown.mdx" }, vim.bo.filetype) then
+          return
+        end
+        pcall(vim.cmd, "delcommand! MarkdownPreview")
+        vim.api.nvim_buf_create_user_command(0, "MarkdownPreview", function()
+          open_preview("wide")
+        end, { desc = "MarkdownPreview (wide, 1400px)" })
+      end
+
+      vim.api.nvim_create_autocmd("FileType", {
+        pattern = { "markdown", "markdown.mdx" },
+        callback = override_markdown_preview,
+      })
+
+      -- Default CSS when the preview server reads g:mkdp_markdown_css.
+      vim.g.mkdp_markdown_css = css_for("wide")
+
+      vim.api.nvim_create_user_command("MarkdownPreviewNormal", function()
+        open_preview("normal")
+      end, { desc = "MarkdownPreview at stock GitHub width (900px)" })
 
       vim.api.nvim_create_user_command("MarkdownPreviewWide", function()
-        preview_with("wide")
+        open_preview("wide")
       end, { desc = "MarkdownPreview with a wider column (1400px)" })
 
       vim.api.nvim_create_user_command("MarkdownPreviewFlex", function()
-        preview_with("flex")
+        open_preview("flex")
       end, { desc = "MarkdownPreview that scales with the window (90vw)" })
+
+      ensure_preview_commands()
+      override_markdown_preview()
     end,
   },
 }
