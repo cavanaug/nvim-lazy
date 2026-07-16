@@ -161,6 +161,8 @@ opt.smartcase = true -- Don't ignore case with capitals
 opt.smartindent = true -- Insert indents automatically
 opt.spell = false
 opt.spelllang = { "en" }
+-- Keep zg/spellgood in sync with cspell's nvim-spell dictionary (not stdpath('data')/site/spell).
+opt.spellfile = vim.fn.stdpath("config") .. "/spell/en.utf-8.add"
 opt.spelloptions:append("noplainbuffer")
 opt.splitbelow = true -- Put new windows below current
 opt.splitkeep = "screen"

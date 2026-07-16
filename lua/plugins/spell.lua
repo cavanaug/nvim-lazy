@@ -211,9 +211,22 @@ local function add_word_to_spell_dictionaries()
     end
   end
 
-  if add_words_to_cspell(variants, find_cspell_config()) then
+  local config_path = find_cspell_config()
+  local cspell_updated = add_words_to_cspell(variants, config_path)
+  if cspell_updated then
     require("lint").try_lint()
   end
+
+  -- Built-in "Word added" messages are suppressed by noice; give explicit feedback.
+  vim.notify(
+    string.format(
+      "Added %s → %s%s",
+      table.concat(variants, ", "),
+      vim.fn.fnamemodify(vim.o.spellfile, ":~"),
+      cspell_updated and (" + " .. vim.fn.fnamemodify(config_path, ":~")) or ""
+    ),
+    vim.log.levels.INFO
+  )
 end
 
 vim.api.nvim_create_autocmd("FileType", {
@@ -235,6 +248,18 @@ return {
       for _, ft in ipairs(spell_filetypes) do
         opts.linters_by_ft[ft] = { "cspell" }
       end
+
+      -- Always lint with the same config zg writes to (project config, else nvim cspell.json).
+      -- Without this, cspell only sees ~/.config/nvim/cspell.json when cwd happens to be there.
+      opts.linters = opts.linters or {}
+      opts.linters.cspell = {
+        prepend_args = {
+          "--config",
+          function()
+            return find_cspell_config()
+          end,
+        },
+      }
     end,
   },
 }
