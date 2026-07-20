@@ -1,11 +1,20 @@
 {
+  "dictionaries": [
+    "nvim-spell"
+  ],
   "language": "en",
   "dictionaryDefinitions": [
     {
-      "path": "./spell/en.utf-8.add",
       "name": "nvim-spell",
+      "path": "./spell/en.utf-8.add",
       "addWords": true
     }
+  ],
+  // Skip identifiers that are almost never English prose.
+  "ignoreRegExpList": [
+    "/\\b[A-Z]{2,}\\b/g", // ALL CAPS acronyms: IBM, PII, GDPR
+    "/\\b[a-z][a-z0-9]*[A-Z][a-zA-Z0-9]*\\b/g", // camelCase: privacyObj, ucdeOrgTenantId
+    "/\\b[A-Z][a-z0-9]+[A-Z][a-zA-Z0-9]*\\b/g" // PascalCase: TenantId, PrivacyContextService (not "Hello")
   ],
   "words": [
     "retrobridge",
@@ -17,10 +26,61 @@
     "PrivacyContextService",
     "PrivacyContextServices",
     "OriginatorContext",
-    "OriginatorContexts"
-  ],
-  "dictionaries": [
-    "nvim-spell"
+    "OriginatorContexts",
+    "originatorContextDetail",
+    "originatorContextDetails",
+    "originatorDetail",
+    "originatorDetails",
+    "Onecloud",
+    "Oneclouds",
+    "ucdeOrgTenantId",
+    "ucdeOrgTenantIds",
+    "ucde",
+    "ucdes",
+    "ucdeTenantId",
+    "ucdeTenantIds",
+    "ucdeFqTenantId",
+    "ucdeFqTenantIds",
+    "ucdeTenantCategory",
+    "ucdeTenantCategories",
+    "ucdeTenantType",
+    "ucdeTenantTypes",
+    "TenantCategory",
+    "TenantCategories",
+    "TenantType",
+    "TenantTypes",
+    "TenantId",
+    "TenantIds",
+    "ucdeCorrelationId",
+    "ucdeCorrelationIds",
+    "Splunk",
+    "Splunks",
+    "associatedDeviceUuid",
+    "associatedDeviceUuids",
+    "associatedStratusUserId",
+    "associatedStratusUserIds",
+    "associated",
+    "associateds",
+    "associatedIdpType",
+    "associatedIdpTypes",
+    "IdpType",
+    "IdpTypes",
+    "IdpUserId",
+    "IdpUserIds",
+    "Tenantid",
+    "Tenantids",
+    "idpid",
+    "idpids",
+    "userResourceid",
+    "userResourceids",
+    "jsonschema",
+    "jsonschemas",
+    "StratusUserId",
+    "StratusUserIds",
+    "hpid",
+    "hpids",
+    "agentic",
+    "agentics"
   ],
   "version": "0.2"
 }
