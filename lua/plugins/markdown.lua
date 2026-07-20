@@ -85,6 +85,11 @@ return {
     },
     init = function()
       vim.g.mkdp_theme = "light"
+      -- Reuse one preview tab across markdown buffers; refresh on buffer switch.
+      -- auto_close must be off or the tab closes when leaving a buffer.
+      vim.g.mkdp_combine_preview = 1
+      vim.g.mkdp_combine_preview_auto_refresh = 1
+      vim.g.mkdp_auto_close = 0
     end,
     config = function()
       -- Width presets. The value is dropped straight into CSS `max-width`.
