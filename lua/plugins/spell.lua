@@ -1,19 +1,8 @@
--- cspell + Neovim spell integration for prose filetypes (markdown, text, mdx).
--- Project cspell configs stay aligned with VS Code teammates.
+-- cspell (nvim-lint) for prose filetypes (markdown, text, mdx).
+-- Vim 'spell' is off — project/nvim cspell.json is the single dictionary.
+-- zg still adds to cspell (+ spellfile if someone re-enables spell).
 
 local spell_filetypes = { "markdown", "mdx", "markdown.mdx", "text" }
-
----@param word string
----@param words string[]
----@return boolean
-local function word_in_list(word, words)
-  for _, existing in ipairs(words) do
-    if existing == word then
-      return true
-    end
-  end
-  return false
-end
 
 --- Common singular/plural variants for English (tech prose).
 ---@param word string
@@ -147,24 +136,58 @@ local function add_words_to_cspell(words, config_path)
   end
 
   if config_path:match("%.json$") then
-    local file_lines = vim.fn.readfile(config_path)
-    local ok, config = pcall(vim.json.decode, table.concat(file_lines, "\n"))
-    if not ok or type(config) ~= "table" then
-      vim.notify("Could not parse cspell config: " .. config_path, vim.log.levels.ERROR)
+    -- Line-insert into "words" so JSONC comments/formatting survive.
+    -- (vim.json.decode rejects // comments that cspell itself allows.)
+    local lines = vim.fn.readfile(config_path)
+    local words_start = nil
+    local words_end = nil
+    for i, line in ipairs(lines) do
+      if line:match('"words"%s*:') then
+        words_start = i
+      elseif words_start and not words_end and line:match("^%s*%]") then
+        words_end = i
+        break
+      end
+    end
+    if not words_start or not words_end then
+      vim.notify("No 'words' array in cspell config: " .. config_path, vim.log.levels.WARN)
       return false
     end
 
-    config.words = config.words or {}
+    local existing = {}
+    for i = words_start + 1, words_end - 1 do
+      local word = lines[i]:match('"([^"]+)"')
+      if word then
+        existing[word] = true
+      end
+    end
+
     local updated = false
+    local insert_at = words_end
     for _, word in ipairs(words) do
-      if not word_in_list(word, config.words) then
-        config.words[#config.words + 1] = word
+      if not existing[word] then
+        -- Match indent of neighboring word entries when present.
+        local indent = "    "
+        if insert_at > words_start + 1 then
+          indent = lines[insert_at - 1]:match("^(%s*)") or indent
+        end
+        -- Keep a trailing comma on the previous last word when we append.
+        if insert_at == words_end and insert_at > words_start + 1 then
+          local prev = lines[insert_at - 1]
+          if prev:match('"') and not prev:match(",%s*$") then
+            lines[insert_at - 1] = prev:gsub("%s*$", ",")
+          end
+        end
+        table.insert(lines, insert_at, indent .. '"' .. word .. '",')
+        existing[word] = true
+        insert_at = insert_at + 1
+        words_end = words_end + 1
         updated = true
       end
     end
 
     if updated then
-      vim.fn.writefile(vim.split(vim.json.encode(config, { indent = "  " }), "\n"), config_path)
+      vim.fn.writefile(lines, config_path)
     end
     return updated
   end

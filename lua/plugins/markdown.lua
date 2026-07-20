@@ -5,7 +5,7 @@ vim.api.nvim_create_autocmd("FileType", {
   callback = function()
     -- Disable concealment for the entire filetype (markdown)
     vim.opt_local.conceallevel = 0
-    vim.opt_local.textwidth = 140
+    vim.opt_local.textwidth = 125 -- match rumdl line-length
 
     -- Force Tree-sitter to not conceal HTML comments
     vim.treesitter.query.set("markdown", "html", [[ (comment) @comment ]])
@@ -16,13 +16,25 @@ vim.api.nvim_create_autocmd("FileType", {
 })
 local rumdl_config = vim.fn.stdpath("config") .. "/rumdl.toml"
 return {
-  -- Configure rumdl LSP server with custom config path
+  -- rumdl LSP: hide MD013 (line-length) diagnostics. rumdl uses pull diagnostics
+  -- (textDocument/diagnostic), not publishDiagnostics. Reflow still happens on save
+  -- via conform (`rumdl fmt` keeps MD013 + reflow in rumdl.toml).
   {
     "neovim/nvim-lspconfig",
     opts = {
       servers = {
         rumdl = {
           cmd = { "rumdl", "server", "--config", rumdl_config },
+          handlers = {
+            ["textDocument/diagnostic"] = function(err, result, ctx, config)
+              if result and result.items then
+                result.items = vim.tbl_filter(function(diag)
+                  return diag.code ~= "MD013"
+                end, result.items)
+              end
+              vim.lsp.diagnostic.on_diagnostic(err, result, ctx, config)
+            end,
+          },
         },
       },
     },

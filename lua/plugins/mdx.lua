@@ -127,10 +127,10 @@ return {
         callback = function()
           -- Editor settings for MDX files
           vim.opt_local.conceallevel = 0 -- Disable concealment
-          vim.opt_local.spell = true -- Enable spell check
+          vim.opt_local.spell = false -- cspell via nvim-lint; not vim spell
           vim.opt_local.wrap = true -- Enable word wrap
           vim.opt_local.linebreak = true -- Break at word boundaries
-          vim.opt_local.textwidth = 140 -- Text width for formatting
+          vim.opt_local.textwidth = 125 -- match rumdl line-length
           vim.opt_local.commentstring = "{/* %s */}" -- JSX-style comments
         end,
       })

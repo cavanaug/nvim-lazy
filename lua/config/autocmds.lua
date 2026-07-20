@@ -5,7 +5,8 @@
 -- with `vim.api.nvim_create_autocmd`
 --
 -- Or remove existing autocmds by their group name (which is prefixed with `lazyvim_` for the defaults)
--- e.g. vim.api.nvim_del_augroup_by_name("lazyvim_wrap_spell")
+-- Built-in vim spell fights cspell on prose (underlines PII/GDPR/etc). Use cspell via nvim-lint only.
+pcall(vim.api.nvim_del_augroup_by_name, "lazyvim_wrap_spell")
 
 ---------------------------------------------------------------
 --- Original vim.cmd autocmds for filetype settings
@@ -35,7 +36,7 @@
 -- User filetype settings
 ---------------------------------------------------------------
 
--- Spell highlight: red italic underline for misspellings
+-- Spell highlight (unused while nospell; kept if spell is re-enabled)
 vim.api.nvim_create_autocmd("ColorScheme", {
   group = vim.api.nvim_create_augroup("user_spell_highlights", { clear = true }),
   callback = function()
@@ -83,11 +84,11 @@ vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
 })
 
 ---------------------------------------------------------------
--- Set spell for certain filetypes
+-- Prose spelling: cspell only (nvim-lint). Disable vim spell.
 ---------------------------------------------------------------
 vim.api.nvim_create_autocmd("FileType", {
-  pattern = { "markdown", "text" },
-  command = "setlocal spell",
+  pattern = { "markdown", "text", "gitcommit", "mdx", "markdown.mdx" },
+  command = "setlocal nospell",
   group = "user_filetype_settings",
 })
 
