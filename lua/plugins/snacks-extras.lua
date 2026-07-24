@@ -1,42 +1,14 @@
--- vim.v.oldfiles (shada) can end up alphabetically sorted instead of MRU; sort by
--- mtime ourselves for dashboard, and use snacks frecency (mtime-seeded) for the picker.
-local function recent_mtime(file)
-  local stat = vim.uv.fs_stat(file)
-  return stat and stat.mtime.sec or 0
-end
+-- Cross-machine MRU via ~/Sync/nvim/mru.<hostname> (Syncthing).
+-- ponytail: vim.v.oldfiles order is unreliable; we own the list instead of fighting shada.
 
-local function recent_section(config)
-  return function()
-    local limit = config.limit or 5
-    local candidates = {}
-    for file in require("snacks.dashboard").oldfiles() do
-      if (not config.filter or config.filter(file)) and vim.uv.fs_stat(file) then
-        candidates[#candidates + 1] = { file = file, mtime = recent_mtime(file) }
-      end
-    end
-    table.sort(candidates, function(a, b)
-      return a.mtime > b.mtime
-    end)
+local MRU_MAX = 100
+local SYNC_DIR = vim.fn.expand("~/Sync/nvim")
 
-    local ret = {}
-    for i = 1, math.min(limit, #candidates) do
-      local file = candidates[i].file
-      ret[#ret + 1] = {
-        file = file,
-        icon = "file",
-        action = ":e " .. vim.fn.fnameescape(file),
-        autokey = true,
-      }
-    end
-    return ret
-  end
-end
-
--- Helper function to filter out unwanted files from recent files lists
 local function recent_files_filter(file)
   local exclude_patterns = {
-    "^/tmp/", -- /tmp directory
-    "COMMIT_EDITMSG$", -- git/hg commit messages
+    "^/tmp/",
+    "^/dev/shm/",
+    "COMMIT_EDITMSG$",
     "%.tmp$",
     "%.log$",
     "%.bak$",
@@ -44,6 +16,9 @@ local function recent_files_filter(file)
     "%.swo$",
     "%.git/",
     "%.cache/",
+    "/%.cursor/",
+    "/Sync/nvim/mru%.",
+    "/Sync/nvim/user%.",
   }
   for _, pattern in ipairs(exclude_patterns) do
     if file:match(pattern) then
@@ -53,13 +28,165 @@ local function recent_files_filter(file)
   return true
 end
 
+local function host_mru_path()
+  return SYNC_DIR .. "/mru." .. vim.fn.hostname()
+end
+
+---@return {ts:integer, path:string}[]
+local function read_mru_file(path)
+  local ok, lines = pcall(vim.fn.readfile, path)
+  if not ok or not lines then
+    return {}
+  end
+  local entries = {}
+  for _, line in ipairs(lines) do
+    local ts, p = line:match("^(%d+)\t(.+)$")
+    if ts and p then
+      entries[#entries + 1] = { ts = tonumber(ts), path = p }
+    end
+  end
+  return entries
+end
+
+local function write_mru_file(path, entries)
+  vim.fn.mkdir(SYNC_DIR, "p")
+  local lines = {}
+  for i = 1, math.min(MRU_MAX, #entries) do
+    lines[#lines + 1] = entries[i].ts .. "\t" .. entries[i].path
+  end
+  vim.fn.writefile(lines, path)
+end
+
+--- Merge all mru.* hosts: max timestamp per path, exists locally, filtered.
+---@return {ts:integer, path:string}[]
+local function merged_mru()
+  local best = {} ---@type table<string, integer>
+  for _, file in ipairs(vim.fn.glob(SYNC_DIR .. "/mru.*", false, true)) do
+    for _, e in ipairs(read_mru_file(file)) do
+      if not best[e.path] or e.ts > best[e.path] then
+        best[e.path] = e.ts
+      end
+    end
+  end
+
+  local list = {}
+  for path, ts in pairs(best) do
+    if recent_files_filter(path) and vim.uv.fs_stat(path) then
+      list[#list + 1] = { path = path, ts = ts }
+    end
+  end
+  table.sort(list, function(a, b)
+    return a.ts > b.ts
+  end)
+  return list
+end
+
+local function touch_mru(path)
+  path = vim.fs.normalize(path)
+  if path == "" or not recent_files_filter(path) or not vim.uv.fs_stat(path) then
+    return
+  end
+
+  local host_file = host_mru_path()
+  local out = { { ts = os.time(), path = path } }
+  for _, e in ipairs(read_mru_file(host_file)) do
+    if e.path ~= path then
+      out[#out + 1] = e
+    end
+  end
+  write_mru_file(host_file, out)
+end
+
+-- One-shot seed from legacy user.* path lists + frecency DB if host mru is missing.
+local function bootstrap_mru_if_needed()
+  local host_file = host_mru_path()
+  if vim.uv.fs_stat(host_file) then
+    return
+  end
+
+  local best = {} ---@type table<string, integer>
+  for _, file in ipairs(vim.fn.glob(SYNC_DIR .. "/user.*", false, true)) do
+    local ok, lines = pcall(vim.fn.readfile, file)
+    if ok and lines then
+      for _, path in ipairs(lines) do
+        if path:match("^/") and recent_files_filter(path) then
+          local st = vim.uv.fs_stat(path)
+          if st then
+            local ts = st.mtime.sec
+            if not best[path] or ts > best[path] then
+              best[path] = ts
+            end
+          end
+        end
+      end
+    end
+  end
+
+  local list = {}
+  for path, ts in pairs(best) do
+    list[#list + 1] = { path = path, ts = ts }
+  end
+  table.sort(list, function(a, b)
+    return a.ts > b.ts
+  end)
+  if #list > 0 then
+    write_mru_file(host_file, list)
+  end
+end
+
+local function recent_section(config)
+  return function()
+    local limit = config.limit or 5
+    local ret = {}
+    for i, e in ipairs(merged_mru()) do
+      if i > limit then
+        break
+      end
+      if not config.filter or config.filter(e.path) then
+        ret[#ret + 1] = {
+          file = e.path,
+          icon = "file",
+          action = ":e " .. vim.fn.fnameescape(e.path),
+          autokey = true,
+        }
+      end
+    end
+    return ret
+  end
+end
+
+-- Finder setup runs on the main thread; the returned cb runs in a fast/async
+-- context (must not call nvim_buf_get_name / vim.fn there).
+---@param _opts snacks.picker.Config
+---@param ctx snacks.picker.finder.ctx
+local function mru_finder(_opts, ctx)
+  local current = vim.fs.normalize(vim.api.nvim_buf_get_name(0))
+  local items = merged_mru()
+  ---@async
+  ---@param cb async fun(item: snacks.picker.finder.Item)
+  return function(cb)
+    for _, e in ipairs(items) do
+      if e.path ~= current and ctx.filter:match({ file = e.path, text = e.path }) then
+        cb({ file = e.path, text = e.path, recent = true })
+      end
+    end
+  end
+end
+
 return {
   {
     "folke/snacks.nvim",
     init = function()
-      vim.schedule(function()
-        pcall(require("snacks.picker.core.frecency").setup)
-      end)
+      bootstrap_mru_if_needed()
+      vim.api.nvim_create_autocmd("BufWinEnter", {
+        group = vim.api.nvim_create_augroup("user_sync_mru", { clear = true }),
+        callback = function(ev)
+          if vim.bo[ev.buf].buftype ~= "" or not vim.bo[ev.buf].buflisted then
+            return
+          end
+          touch_mru(vim.api.nvim_buf_get_name(ev.buf))
+        end,
+      })
     end,
     opts = function(_, opts)
       return vim.tbl_deep_extend("force", opts or {}, {
@@ -100,13 +227,9 @@ return {
         },
         picker = {
           sources = {
-            -- Apply filter to picker's recent files source
             recent = {
-              matcher = {
-                frecency = true,
-                sort_empty = true,
-              },
-              sort = { fields = { "frecency:desc", "idx" } },
+              finder = mru_finder,
+              format = "file",
               filter = {
                 paths = {
                   [vim.fn.stdpath("data")] = false,
