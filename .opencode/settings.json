@@ -1,9 +1,0 @@
-{
-    "allowedPaths": [
-        "/home/cavanaug/.config/nvim",
-        "/home/cavanaug/.local/share/nvim",
-        "/home/cavanaug/.local/state/nvim",
-        "/home/cavanaug/.cache/nvim",
-        "/home/linuxbrew/.linuxbrew/Cellar/neovim"
-    ]
-}

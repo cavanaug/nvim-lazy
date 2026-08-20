@@ -20,6 +20,13 @@ return {
     end,
     opts = {
       processor = "magick_cli",
+      max_height_window_percentage = 100,
+      integrations = {
+        markdown = {
+          only_render_image_at_cursor = true,
+          only_render_image_at_cursor_mode = "popup",
+        },
+      },
     },
   },
 }

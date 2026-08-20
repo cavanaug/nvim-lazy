@@ -1,25 +1,26 @@
 {
-  "$schema": "https://opencode.ai/config.json",
-  "permission": {
-    "external_directory": {
-      "~/.cache/nvim/**": "allow",
-      "~/.local/share/nvim/**": "allow",
-      "~/.local/state/nvim/**": "allow",
-      "/home/linuxbrew/.linuxbrew/Cellar/neovim/**": "allow",
-      "/tmp/**": "allow"
+    "$schema": "https://opencode.ai/config.json",
+    "permission": {
+        "external_directory": {
+            "~/.config/nvim/**": "allow",
+            "~/.cache/nvim/**": "allow",
+            "~/.local/share/nvim/**": "allow",
+            "~/.local/state/nvim/**": "allow",
+            "/home/linuxbrew/.linuxbrew/Cellar/neovim/**": "allow",
+            "/tmp/**": "allow"
+        },
+        "edit": {
+            "~/.local/share/nvim/**": "deny",
+            "~/.cache/nvim/**": "deny",
+            "~/.local/state/nvim/**": "ask",
+            "/home/linuxbrew/.linuxbrew/Cellar/neovim/**": "deny"
+        }
     },
-    "edit": {
-      "~/.local/share/nvim/**": "deny",
-      "~/.cache/nvim/**": "deny",
-      "~/.local/state/nvim/**": "ask",
-      "/home/linuxbrew/.linuxbrew/Cellar/neovim/**": "deny"
+    "mcp": {
+        "nvim": {
+            "type": "local",
+            "command": ["nvim-mcp", "--connect", "auto"],
+            "enabled": true
+        }
     }
-  },
-  "mcp": {
-    "nvim": {
-      "type": "local",
-      "command": ["nvim-mcp", "--connect", "auto"],
-      "enabled": true
-    }
-  }
 }
