@@ -158,3 +158,13 @@ vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
     vim.opt.laststatus = 0 -- There are some race conditions here with the lualine plugin, ensure that it is not loaded lazily
   end,
 })
+
+-- Skip LazyVim format-on-save for files that should keep their on-disk layout
+vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
+  pattern = {
+    "*/.cursor/cli-config.json",
+  },
+  callback = function()
+    vim.b.autoformat = false
+  end,
+})
