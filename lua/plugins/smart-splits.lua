@@ -1,13 +1,8 @@
 --- ----------------------------------------------------------------------------------------
---- TMUX
---- Add the following to your tmux.conf to enable vim-tmux-navigator as a companion
----     set -g @plugin 'christoomey/vim-tmux-navigator' # Tmux Neovim navigation integration
----
---- Zellij
---- Add to your config.kdl to enable zellij-navigator as a companion plugin
---- load_plugins {
----     "https://github.com/hiasr/vim-zellij-navigator/releases/download/0.3.0/vim-zellij-navigator.wasm"
---- }
+--- Herdr navigation uses the wrapper below with the vim-herdr-navigation Herdr plugin.
+--- Herdr pane resizing uses its native resize mode; Alt+h/j/k/l resize Neovim windows only.
+--- No smart-splits backend is needed for this workflow.
+--- Tmux/Zellij integration in smart-splits v3 requires a separate backend plugin and opts.mux.backend.
 --- ----------------------------------------------------------------------------------------
 
 --- mini.move is installed via lazy extras, config for visual mode only, disable the normal mode
@@ -51,7 +46,7 @@ return {
     },
   },
   {
-    "mrjones2014/smart-splits.nvim",
+    "smart-splits-nvim/smart-splits.nvim",
     lazy = false,
     keys = {
       { "<C-Up>", false },
@@ -156,9 +151,9 @@ return {
     opts = {
       ignored_filetypes = { "nofile", "quickfix", "qf", "prompt" },
       ignored_buftypes = { "nofile" },
-      zellij_move_focus_or_tab = false,
-      move_cursor_same_row = true,
-      disable_multiplexer_nav_when_zoomed = true,
+      move = {
+        same_row = true,
+      },
     },
   },
 }
